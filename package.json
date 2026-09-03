@@ -1,0 +1,71 @@
+{
+  "name": "@canyonjs/html-modern",
+  "version": "0.1.0",
+  "description": "Modern Istanbul HTML coverage report React component library",
+  "keywords": [
+    "coverage",
+    "html",
+    "istanbul",
+    "react",
+    "report",
+    "canyon"
+  ],
+  "license": "MIT",
+  "author": "Travis Zhang <https://github.com/travzhang>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/canyonjs/html-modern.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json",
+    "./style.css": "./dist/style.css"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "play": "vite --config vite.config.playground.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "preview": "vite preview --config vite.config.playground.ts"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^6.3.2",
+    "@tsdown/css": "^0.22.14",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@types/react-highlight-words": "^0.20.1",
+    "@vitejs/plugin-react": "^6.1.0",
+    "antd": "^6.6.1",
+    "monaco-editor": "^0.56.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-highlight-words": "^0.21.0",
+    "tsdown": "^0.22.14",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.10"
+  },
+  "peerDependencies": {
+    "@ant-design/icons": "^6.0.0",
+    "antd": "^6.0.0",
+    "monaco-editor": "^0.56.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-highlight-words": "^0.21.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.33.0"
+}
