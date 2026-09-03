@@ -46,7 +46,7 @@ jobs:
 
       - name: Publish to npm
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
         run: |
           VERSION=$(node -p "require('./package.json').version")
           if npm view "@canyonjs/html-modern@${VERSION}" version >/dev/null 2>&1; then
