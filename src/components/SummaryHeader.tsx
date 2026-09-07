@@ -49,7 +49,7 @@ const SummaryMetric: FC<{ data: DataSourceItem }> = ({ data }) => {
         return (
           <div className="summary-metric" key={key}>
             <span className="summary-metric__pct">{value.pct}%</span>
-            <span className="summary-metric__label">{SUMMARY_LABELS[key]}</span>
+            <span className="summary-metric__label">{SUMMARY_LABELS[key]}:</span>
             <span className="summary-metric__ratio">
               {value.covered}/{value.total}
             </span>

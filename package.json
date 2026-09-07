@@ -1,6 +1,6 @@
 {
   "name": "@canyonjs/html-modern",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Modern Istanbul HTML coverage report React component library + single-file HTML page",
   "keywords": [
     "coverage",

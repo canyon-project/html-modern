@@ -63,7 +63,7 @@ const TopControl: FC<{
               onClick={() => onChangeShowMode("tree")}
             >
               <TreeViewIcon width={14} height={14} />
-              Tree
+              Code Tree
             </button>
             <button
               type="button"
@@ -71,10 +71,10 @@ const TopControl: FC<{
               onClick={() => onChangeShowMode("list")}
             >
               <ListIcon />
-              List
+              File List
             </button>
           </div>
-          <span className="top-control__count">{total} files</span>
+          <span className="top-control__count">{total} Total Files</span>
         </div>
 
         <div className="top-control__right">
@@ -90,7 +90,7 @@ const TopControl: FC<{
           <input
             className="search-input"
             type="search"
-            placeholder="Search files"
+            placeholder="Search for files"
             value={filenameKeywords}
             onChange={(event) => onChangeKeywords(event.target.value)}
           />
