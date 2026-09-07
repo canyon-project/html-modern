@@ -32,6 +32,7 @@ const editorChrome = {
   ".cm-scroller": {
     fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
     lineHeight: "18px",
+    overflow: "auto",
   },
   ".cm-content": {
     padding: "0",

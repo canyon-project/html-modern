@@ -59,9 +59,11 @@ body {
 
 .istanbul-html-modern .coverage-detail-spin-wrapper {
   height: 100%;
+  max-height: 100%;
 }
 .istanbul-html-modern .coverage-detail-spin-wrapper > .ant-spin-container {
   height: 100%;
+  max-height: 100%;
 }
 .istanbul-html-modern {
   height: 100%;
@@ -76,6 +78,21 @@ body {
   flex: 1;
   min-height: 0;
   overflow: auto;
+}
+
+/* File view: clip here so CodeMirror `.cm-scroller` owns the scrollbar. */
+.istanbul-html-modern .report-editor-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.istanbul-html-modern .report-editor-body .coverage-detail-spin-wrapper {
+  flex: 1;
+  min-height: 0;
+  height: auto;
 }
 .istanbul-html-modern a {
   color: var(--report-link);
@@ -138,16 +155,21 @@ body {
 
 .istanbul-html-modern .coverage-detail-container {
   height: 100%;
+  min-height: 0;
   position: relative;
+  overflow: hidden;
 }
 
 .istanbul-html-modern .coverage-detail-editor {
   width: 100%;
   height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .istanbul-html-modern .coverage-detail-editor .cm-editor {
   height: 100%;
+  max-height: 100%;
   background: var(--report-bg);
   color: var(--report-text);
 }
@@ -157,5 +179,5 @@ body {
 }
 
 .istanbul-html-modern .coverage-detail-editor .cm-scroller {
-  overflow: auto;
+  overflow: auto !important;
 }

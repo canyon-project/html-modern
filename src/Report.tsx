@@ -89,7 +89,7 @@ const ReportContent: FC<ReportProps> = ({ value, name, dataSource, onSelect }) =
         />
 
         {mode === "file" ? (
-          <div className="report-scroll-body">
+          <div className="report-editor-body">
             <Spin spinning={!isFileDataReady} classNames={{ root: "coverage-detail-spin-wrapper" }}>
               {isFileDataReady && (
                 <CoverageDetail source={fileContent} coverage={fileCoverage} theme={theme} />

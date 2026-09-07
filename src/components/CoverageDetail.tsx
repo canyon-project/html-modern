@@ -1,4 +1,3 @@
-import { javascript } from "@codemirror/lang-javascript";
 import { EditorState, RangeSetBuilder, Text } from "@codemirror/state";
 import type { Extension } from "@codemirror/state";
 import { Decoration, EditorView, WidgetType, hoverTooltip } from "@codemirror/view";
