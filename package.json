@@ -41,14 +41,12 @@
     "test": "vitest run",
     "preview": "vite preview"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@ant-design/icons": "^6.3.2",
     "@codemirror/lang-javascript": "^6.2.4",
     "@codemirror/language": "^6.11.3",
     "@codemirror/state": "^6.5.2",
-    "@codemirror/view": "^6.38.6"
-  },
-  "devDependencies": {
-    "@ant-design/icons": "^6.3.2",
+    "@codemirror/view": "^6.38.6",
     "@tsdown/css": "^0.22.14",
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
@@ -67,6 +65,10 @@
   },
   "peerDependencies": {
     "@ant-design/icons": "^6.0.0",
+    "@codemirror/lang-javascript": "^6.2.0",
+    "@codemirror/language": "^6.11.0",
+    "@codemirror/state": "^6.5.0",
+    "@codemirror/view": "^6.38.0",
     "antd": "^6.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

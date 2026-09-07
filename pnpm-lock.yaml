@@ -7,7 +7,10 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
+      '@ant-design/icons':
+        specifier: ^6.3.2
+        version: 6.3.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@codemirror/lang-javascript':
         specifier: ^6.2.4
         version: 6.2.5
@@ -20,10 +23,6 @@ importers:
       '@codemirror/view':
         specifier: ^6.38.6
         version: 6.43.11
-    devDependencies:
-      '@ant-design/icons':
-        specifier: ^6.3.2
-        version: 6.3.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@tsdown/css':
         specifier: ^0.22.14
         version: 0.22.14(postcss@8.5.27)(tsdown@0.22.14)

@@ -7,7 +7,8 @@ Modern Istanbul HTML coverage report: React component library + single-file HTML
 Peer dependencies must be installed in your app:
 
 ```bash
-pnpm add @canyonjs/html-modern react react-dom antd @ant-design/icons react-highlight-words
+pnpm add @canyonjs/html-modern react react-dom antd @ant-design/icons react-highlight-words \
+  @codemirror/view @codemirror/state @codemirror/language @codemirror/lang-javascript
 ```
 
 ## Usage (React library)
