@@ -1,13 +1,22 @@
+import { javascript } from "@codemirror/lang-javascript";
+import { EditorState, RangeSetBuilder, Text } from "@codemirror/state";
+import type { Extension } from "@codemirror/state";
+import { Decoration, EditorView, WidgetType, hoverTooltip } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
 
+import {
+  coverageHighlight,
+  darkEditorTheme,
+  languageExtensionFromPath,
+  lightEditorTheme,
+} from "../codemirror";
 import { annotateBranches, annotateFunctions, annotateStatements } from "../helpers/annotate";
 import type { CoverageAnnotation } from "../helpers/annotate";
 import { emptyFileCoverage } from "../helpers/empty-coverage";
 import { computeLineHits } from "../helpers/line-hits";
-import { languageFromPath, monaco } from "../monaco";
 import type { ThemeMode } from "../theme-context";
 import type { FileCoverageData } from "../types";
-import { renderLineNumberGutter } from "./LineNumbers";
+import { coverageLineGutter, type LineState } from "./LineNumbers";
 
 const UNCOVERED_HOVER: Record<CoverageAnnotation["type"], string> = {
   S: "Statement not covered",
@@ -17,8 +26,125 @@ const UNCOVERED_HOVER: Record<CoverageAnnotation["type"], string> = {
   E: "Else path not taken",
 };
 
-function hoverMessage(type: CoverageAnnotation["type"]): monaco.IMarkdownString {
-  return { value: UNCOVERED_HOVER[type] };
+/** Convert 1-based line/col (coverage annotation) to a CodeMirror document offset. */
+function posAt(doc: Text, line: number, col: number): number {
+  const clampedLine = Math.min(Math.max(line, 1), doc.lines);
+  const lineObj = doc.line(clampedLine);
+  return lineObj.from + Math.max(0, Math.min(col - 1, lineObj.length));
+}
+
+class BranchWidget extends WidgetType {
+  constructor(readonly kind: "I" | "E") {
+    super();
+  }
+
+  eq(other: BranchWidget): boolean {
+    return this.kind === other.kind;
+  }
+
+  toDOM(): HTMLElement {
+    const span = document.createElement("span");
+    span.className = this.kind === "I" ? "insert-i-decoration" : "insert-e-decoration";
+    span.setAttribute("aria-label", UNCOVERED_HOVER[this.kind]);
+    span.title = UNCOVERED_HOVER[this.kind];
+    return span;
+  }
+
+  ignoreEvent(): boolean {
+    return false;
+  }
+}
+
+function buildCoverageDecorations(doc: Text, annotations: CoverageAnnotation[]) {
+  const builder = new RangeSetBuilder<Decoration>();
+  const sorted = [...annotations].sort((a, b) => {
+    if (a.startLine !== b.startLine) {
+      return a.startLine - b.startLine;
+    }
+    return a.startCol - b.startCol;
+  });
+
+  for (const item of sorted) {
+    const from = posAt(doc, item.startLine, item.startCol);
+    if (item.type === "I" || item.type === "E") {
+      builder.add(
+        from,
+        from,
+        Decoration.widget({
+          widget: new BranchWidget(item.type),
+          side: -1,
+        }),
+      );
+      continue;
+    }
+
+    const to = posAt(doc, item.endLine, item.endCol);
+    if (to <= from) {
+      continue;
+    }
+    builder.add(
+      from,
+      to,
+      Decoration.mark({
+        class: item.type === "B" ? "content-class-no-found-branch" : "content-class-no-found",
+        attributes: { title: UNCOVERED_HOVER[item.type] },
+      }),
+    );
+  }
+
+  return builder.finish();
+}
+
+function coverageHoverTooltip(annotations: CoverageAnnotation[]): Extension {
+  return hoverTooltip((view, pos) => {
+    for (const item of annotations) {
+      const from = posAt(view.state.doc, item.startLine, item.startCol);
+      const to =
+        item.type === "I" || item.type === "E"
+          ? from
+          : posAt(view.state.doc, item.endLine, item.endCol);
+      const hit =
+        item.type === "I" || item.type === "E"
+          ? pos === from || pos === from - 1
+          : pos >= from && pos < to;
+      if (!hit) {
+        continue;
+      }
+      return {
+        pos: from,
+        end: item.type === "I" || item.type === "E" ? from : to,
+        above: true,
+        create() {
+          const dom = document.createElement("div");
+          dom.textContent = UNCOVERED_HOVER[item.type];
+          return { dom };
+        },
+      };
+    }
+    return null;
+  });
+}
+
+function createEditorExtensions(options: {
+  filePath: string;
+  theme: ThemeMode;
+  linesState: LineState[];
+  annotations: CoverageAnnotation[];
+  doc: Text;
+}): Extension[] {
+  const { filePath, theme, linesState, annotations, doc } = options;
+  const decorationSet = buildCoverageDecorations(doc, annotations);
+
+  return [
+    EditorState.readOnly.of(true),
+    EditorView.editable.of(false),
+    languageExtensionFromPath(filePath),
+    theme === "dark" ? darkEditorTheme : lightEditorTheme,
+    coverageHighlight,
+    coverageLineGutter(linesState),
+    EditorView.decorations.of(decorationSet),
+    coverageHoverTooltip(annotations),
+  ];
 }
 
 const CoverageDetail = ({
@@ -33,7 +159,6 @@ const CoverageDetail = ({
   const fileCoverage = coverage.path === "" ? emptyFileCoverage : coverage;
   const { lines } = useMemo(() => computeLineHits(fileCoverage, source), [fileCoverage, source]);
   const ref = useRef<HTMLDivElement>(null);
-  const editorRef = useRef<ReturnType<typeof monaco.editor.create> | null>(null);
 
   const linesState = useMemo(
     () =>
@@ -44,10 +169,14 @@ const CoverageDetail = ({
     [lines],
   );
 
-  const lineNumbersMinChars = useMemo(() => {
-    const maxHit = Math.max(0, ...linesState.map((line) => line.hit));
-    return maxHit.toString().length + 7;
-  }, [linesState]);
+  const annotations = useMemo(
+    () => [
+      ...annotateStatements(fileCoverage, source),
+      ...annotateFunctions(fileCoverage, source),
+      ...annotateBranches(fileCoverage, source),
+    ],
+    [fileCoverage, source],
+  );
 
   useEffect(() => {
     const dom = ref.current;
@@ -55,89 +184,25 @@ const CoverageDetail = ({
       return;
     }
 
-    const monacoTheme = theme === "dark" ? "vs-dark" : "vs";
-
-    const editor = monaco.editor.create(dom, {
-      value: source,
-      language: languageFromPath(fileCoverage.path),
-      theme: monacoTheme,
-      fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-      lineHeight: 18,
-      lineNumbers: (lineNumber: number) => renderLineNumberGutter(lineNumber, linesState),
-      lineNumbersMinChars,
-      readOnly: true,
-      folding: false,
-      minimap: { enabled: false },
-      scrollBeyondLastLine: false,
-      showUnused: false,
-      fontSize: 12,
-      contextmenu: false,
-      automaticLayout: true,
-      links: false,
-      quickSuggestions: false,
-      wordBasedSuggestions: "off",
+    const doc = Text.of(source.split(/\r?\n/));
+    const view = new EditorView({
+      parent: dom,
+      state: EditorState.create({
+        doc,
+        extensions: createEditorExtensions({
+          filePath: fileCoverage.path,
+          theme,
+          linesState,
+          annotations,
+          doc,
+        }),
+      }),
     });
-    editorRef.current = editor;
-
-    const all = [
-      ...annotateStatements(fileCoverage, source),
-      ...annotateFunctions(fileCoverage, source),
-      ...annotateBranches(fileCoverage, source),
-    ];
-
-    const decorations: monaco.editor.IModelDeltaDecoration[] = [];
-    for (const item of all) {
-      const hover = hoverMessage(item.type);
-      if (item.type === "S" || item.type === "F") {
-        decorations.push({
-          range: new monaco.Range(item.startLine, item.startCol, item.endLine, item.endCol),
-          options: {
-            isWholeLine: false,
-            inlineClassName: "content-class-no-found",
-            hoverMessage: hover,
-          },
-        });
-      } else if (item.type === "B") {
-        decorations.push({
-          range: new monaco.Range(item.startLine, item.startCol, item.endLine, item.endCol),
-          options: {
-            isWholeLine: false,
-            inlineClassName: "content-class-no-found-branch",
-            hoverMessage: hover,
-          },
-        });
-      } else if (item.type === "I") {
-        decorations.push({
-          range: new monaco.Range(item.startLine, item.startCol, item.startLine, item.startCol),
-          options: {
-            beforeContentClassName: "insert-i-decoration",
-            hoverMessage: hover,
-            stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
-          },
-        });
-      } else if (item.type === "E") {
-        decorations.push({
-          range: new monaco.Range(item.startLine, item.startCol, item.startLine, item.startCol),
-          options: {
-            beforeContentClassName: "insert-e-decoration",
-            hoverMessage: hover,
-            stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
-          },
-        });
-      }
-    }
-
-    editor.createDecorationsCollection(decorations);
 
     return () => {
-      editor.dispose();
-      editorRef.current = null;
+      view.destroy();
     };
-  }, [source, fileCoverage, linesState, lineNumbersMinChars, theme]);
-
-  useEffect(() => {
-    monaco.editor.setTheme(theme === "dark" ? "vs-dark" : "vs");
-  }, [theme]);
+  }, [source, fileCoverage.path, linesState, annotations, theme]);
 
   return (
     <div className="coverage-detail-container">

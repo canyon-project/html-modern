@@ -1,34 +1,34 @@
 # @canyonjs/html-modern
 
-Modern Istanbul HTML coverage report React component library.
+Modern Istanbul HTML coverage report: React component library + single-file HTML page.
 
 ## Install
 
 Peer dependencies must be installed in your app:
 
 ```bash
-pnpm add @canyonjs/html-modern react react-dom antd @ant-design/icons monaco-editor react-highlight-words
+pnpm add @canyonjs/html-modern react react-dom antd @ant-design/icons react-highlight-words
 ```
 
-Also import Monaco editor styles in your app entry (required for the code viewer):
-
-```ts
-import "monaco-editor/min/vs/editor/editor.main.css";
-```
-
-## Usage
+## Usage (React library)
 
 ```tsx
 import { ReportApp, buildReportFiles } from "@canyonjs/html-modern";
 import "@canyonjs/html-modern/style.css";
 ```
 
+## Single-file HTML page
+
+`pnpm build` also emits `dist/page/index.html` (JS/CSS inlined via `vite-plugin-singlefile`).
+At report generation time, replace `__REPORT_DATA__` in that file with the serialized coverage payload.
+
 ## Scripts
 
 ```bash
 pnpm install
-pnpm build      # dist/index.js + dist/style.css
+pnpm build      # dist/index.js + dist/style.css + dist/page/index.html
 pnpm play       # UI playground (uses coverage/report-data.json)
+pnpm dev        # single-file page Vite dev server
 pnpm test       # unit tests
 pnpm typecheck
 ```
@@ -51,6 +51,7 @@ Push to `main` triggers `.github/workflows/publish.yml`: typecheck → test → 
 
 ```
 src/           # React component library (tsdown → dist/)
+src/page/      # single-file HTML page (vite → dist/page/)
 playground/    # local dev playground
-coverage/      # sample report-data.json for playground
+coverage/      # sample report-data.json for playground / page dev
 ```

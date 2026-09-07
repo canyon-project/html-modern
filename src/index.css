@@ -145,3 +145,17 @@ body {
   width: 100%;
   height: 100%;
 }
+
+.istanbul-html-modern .coverage-detail-editor .cm-editor {
+  height: 100%;
+  background: var(--report-bg);
+  color: var(--report-text);
+}
+
+.istanbul-html-modern .coverage-detail-editor .cm-editor.cm-focused {
+  outline: none;
+}
+
+.istanbul-html-modern .coverage-detail-editor .cm-scroller {
+  overflow: auto;
+}

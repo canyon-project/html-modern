@@ -1,7 +1,7 @@
 {
   "name": "@canyonjs/html-modern",
   "version": "0.1.0",
-  "description": "Modern Istanbul HTML coverage report React component library",
+  "description": "Modern Istanbul HTML coverage report React component library + single-file HTML page",
   "keywords": [
     "coverage",
     "html",
@@ -32,11 +32,20 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "pnpm run build:lib && pnpm run build:page",
+    "build:lib": "tsdown",
+    "build:page": "vite build",
+    "dev": "vite",
     "play": "vite --config vite.config.playground.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "preview": "vite preview --config vite.config.playground.ts"
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.4",
+    "@codemirror/language": "^6.11.3",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.38.6"
   },
   "devDependencies": {
     "@ant-design/icons": "^6.3.2",
@@ -47,19 +56,18 @@
     "@types/react-highlight-words": "^0.20.1",
     "@vitejs/plugin-react": "^6.1.0",
     "antd": "^6.6.1",
-    "monaco-editor": "^0.56.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-highlight-words": "^0.21.0",
     "tsdown": "^0.22.14",
     "typescript": "^7.0.2",
     "vite": "^8.2.2",
+    "vite-plugin-singlefile": "^2.3.0",
     "vitest": "^4.1.10"
   },
   "peerDependencies": {
     "@ant-design/icons": "^6.0.0",
     "antd": "^6.0.0",
-    "monaco-editor": "^0.56.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-highlight-words": "^0.21.0"

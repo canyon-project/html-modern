@@ -22,7 +22,10 @@
     "src",
     "playground/src",
     "test",
+    "vite.config.ts",
     "vite.config.playground.ts",
+    "vite-plugin-report-data-dev.ts",
+    "report-data-placeholder.ts",
     "tsdown.config.ts",
     "vitest.config.ts"
   ],

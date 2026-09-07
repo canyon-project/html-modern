@@ -1,6 +1,8 @@
+import type { Extension } from "@codemirror/state";
+import { gutter, GutterMarker } from "@codemirror/view";
 import { renderToStaticMarkup } from "react-dom/server";
 
-interface LineState {
+export interface LineState {
   lineNumber: number;
   hit: number;
 }
@@ -40,7 +42,7 @@ function LineNumberWrapper({
   );
 }
 
-/** Render Monaco line-number gutter HTML for a single line. */
+/** Render coverage line-number gutter HTML for a single line. */
 export function renderLineNumberGutter(lineNumber: number, linesState: LineState[]): string {
   const line = linesState.find((item) => item.lineNumber === lineNumber) ?? {
     hit: -1,
@@ -54,4 +56,38 @@ export function renderLineNumberGutter(lineNumber: number, linesState: LineState
   return renderToStaticMarkup(
     <LineNumberWrapper lineNumber={lineNumber} line={line} maxHitWidth={maxHitWidth} />,
   );
+}
+
+class CoverageGutterMarker extends GutterMarker {
+  constructor(
+    readonly lineNumber: number,
+    readonly hit: number,
+    readonly html: string,
+  ) {
+    super();
+  }
+
+  eq(other: CoverageGutterMarker): boolean {
+    return this.lineNumber === other.lineNumber && this.hit === other.hit;
+  }
+
+  toDOM(): HTMLElement {
+    const wrap = document.createElement("div");
+    wrap.innerHTML = this.html;
+    return (wrap.firstElementChild as HTMLElement | null) ?? wrap;
+  }
+}
+
+/** CodeMirror gutter showing line numbers + hit counts. */
+export function coverageLineGutter(linesState: LineState[]): Extension {
+  const byLine = new Map(linesState.map((line) => [line.lineNumber, line]));
+
+  return gutter({
+    class: "cm-coverage-gutter",
+    lineMarker(view, line) {
+      const lineNumber = view.state.doc.lineAt(line.from).number;
+      const hit = byLine.get(lineNumber)?.hit ?? -1;
+      return new CoverageGutterMarker(lineNumber, hit, renderLineNumberGutter(lineNumber, linesState));
+    },
+  });
 }
