@@ -27,7 +27,7 @@ export default defineConfig({
     ],
   },
   optimizeDeps: {
-    include: ["@ant-design/icons", "antd", "react-dom/server", "react-highlight-words"],
+    include: ["react-dom/server"],
   },
   server: {
     port: 30614,

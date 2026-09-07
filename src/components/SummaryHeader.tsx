@@ -1,10 +1,7 @@
-import { Tag, Typography } from "antd";
 import type { FC } from "react";
 
 import { getColor } from "../helpers/color";
 import type { DataSourceItem } from "../types";
-
-const { Text } = Typography;
 
 const SUMMARY_LABELS: Record<string, string> = {
   statements: "Statements",
@@ -23,27 +20,39 @@ const SummaryNav: FC<{
   const crumbs = value === "" ? [reportName] : `${reportName}/${value}`.split("/");
 
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "3px",
-        marginBottom: "6px",
-        fontSize: "16px",
-        fontWeight: "bold",
-      }}
-    >
+    <nav className="summary-nav" aria-label="Coverage path">
       {crumbs.map((item, index) => {
         const pathKey = `${reportName}-${index}-${item}`;
+        const isLast = index === crumbs.length - 1;
         return (
-          <div key={pathKey} style={{ display: "flex", gap: "3px" }}>
-            <a
-              onClick={() => {
-                onClick(value.split("/").slice(0, index).join("/"));
-              }}
+          <span key={pathKey} className="summary-nav__crumb">
+            <button
+              type="button"
+              className={isLast ? "summary-nav__link is-current" : "summary-nav__link"}
+              onClick={() => onClick(value.split("/").slice(0, index).join("/"))}
             >
               {item}
-            </a>
-            {index === value.split("/").length || !value ? null : <span>/</span>}
+            </button>
+            {!isLast ? <span className="summary-nav__sep">/</span> : null}
+          </span>
+        );
+      })}
+    </nav>
+  );
+};
+
+const SummaryMetric: FC<{ data: DataSourceItem }> = ({ data }) => {
+  return (
+    <div className="summary-metrics">
+      {METRIC_ORDER.map((key) => {
+        const value = data[key];
+        return (
+          <div className="summary-metric" key={key}>
+            <span className="summary-metric__pct">{value.pct}%</span>
+            <span className="summary-metric__label">{SUMMARY_LABELS[key]}</span>
+            <span className="summary-metric__ratio">
+              {value.covered}/{value.total}
+            </span>
           </div>
         );
       })}
@@ -51,53 +60,13 @@ const SummaryNav: FC<{
   );
 };
 
-const SummaryMetric: FC<{ data: DataSourceItem }> = ({ data }) => {
-  return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          gap: "6px",
-          marginBottom: "6px",
-          maxWidth: "1000px",
-          flexWrap: "wrap",
-        }}
-      >
-        {METRIC_ORDER.map((key) => {
-          const value = data[key];
-          return (
-            <div
-              style={{
-                display: "flex",
-                gap: "3px",
-                alignItems: "center",
-              }}
-              key={key}
-            >
-              <span style={{ fontWeight: "600", fontSize: "14px" }}>{value.pct}%</span>
-              <Text style={{ fontSize: "14px" }} type="secondary">
-                {SUMMARY_LABELS[key]}:
-              </Text>
-              <Tag variant="filled">
-                {value.covered}/{value.total}
-              </Tag>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
 const SummaryBar: FC<{ pct: number }> = ({ pct }) => {
   return (
     <div
-      style={{
-        height: "8px",
-        width: "100%",
-        marginBottom: "6px",
-        backgroundColor: getColor(pct),
-      }}
+      className="summary-bar"
+      style={{ backgroundColor: getColor(pct) }}
+      role="presentation"
+      aria-hidden="true"
     />
   );
 };
@@ -109,11 +78,11 @@ const SummaryHeader: FC<{
   reportName: string;
 }> = ({ value, onSelect, data, reportName }) => {
   return (
-    <div>
+    <header className="summary-header">
       <SummaryNav reportName={reportName} value={value} onClick={onSelect} />
       <SummaryMetric data={data} />
       <SummaryBar pct={data.statements.pct} />
-    </div>
+    </header>
   );
 };
 

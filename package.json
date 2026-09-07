@@ -1,6 +1,6 @@
 {
   "name": "@canyonjs/html-modern",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Modern Istanbul HTML coverage report React component library + single-file HTML page",
   "keywords": [
     "coverage",
@@ -42,7 +42,6 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@ant-design/icons": "^6.3.2",
     "@codemirror/lang-javascript": "^6.2.4",
     "@codemirror/language": "^6.11.3",
     "@codemirror/state": "^6.5.2",
@@ -51,12 +50,9 @@
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
-    "@types/react-highlight-words": "^0.20.1",
     "@vitejs/plugin-react": "^6.1.0",
-    "antd": "^6.6.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-highlight-words": "^0.21.0",
     "tsdown": "^0.22.14",
     "typescript": "^7.0.2",
     "vite": "^8.2.2",
@@ -64,15 +60,12 @@
     "vitest": "^4.1.10"
   },
   "peerDependencies": {
-    "@ant-design/icons": "^6.0.0",
     "@codemirror/lang-javascript": "^6.2.0",
     "@codemirror/language": "^6.11.0",
     "@codemirror/state": "^6.5.0",
     "@codemirror/view": "^6.38.0",
-    "antd": "^6.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-highlight-words": "^0.21.0"
+    "react-dom": "^19.0.0"
   },
   "engines": {
     "node": ">=22"

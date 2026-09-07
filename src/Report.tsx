@@ -1,4 +1,3 @@
-import { ConfigProvider, Spin, theme as antdTheme } from "antd";
 import { type FC, useEffect, useId, useMemo, useRef, useState } from "react";
 
 import CoverageDetail from "./components/CoverageDetail";
@@ -64,54 +63,46 @@ const ReportContent: FC<ReportProps> = ({ value, name, dataSource, onSelect }) =
   );
 
   return (
-    <ConfigProvider
-      theme={{
-        algorithm: theme === "dark" ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
-        token: {
-          colorPrimary: "#0071c2",
-          borderRadius: 2,
-        },
-      }}
-    >
-      <div className={rootClassName}>
-        <TopControl
-          filenameKeywords={filenameKeywords}
-          showMode={showMode}
-          onChangeShowMode={setShowMode}
-          total={listDataSource.length}
-          onChangeKeywords={setFilenameKeywords}
-        />
-        <SummaryHeader
-          reportName={name}
-          data={rootDataSource}
-          value={value}
-          onSelect={requestSelect}
-        />
+    <div className={rootClassName}>
+      <TopControl
+        filenameKeywords={filenameKeywords}
+        showMode={showMode}
+        onChangeShowMode={setShowMode}
+        total={listDataSource.length}
+        onChangeKeywords={setFilenameKeywords}
+      />
+      <SummaryHeader
+        reportName={name}
+        data={rootDataSource}
+        value={value}
+        onSelect={requestSelect}
+      />
 
-        {mode === "file" ? (
-          <div className="report-editor-body">
-            <Spin spinning={!isFileDataReady} classNames={{ root: "coverage-detail-spin-wrapper" }}>
-              {isFileDataReady && (
-                <CoverageDetail source={fileContent} coverage={fileCoverage} theme={theme} />
-              )}
-            </Spin>
-          </div>
-        ) : (
-          <div className="report-scroll-body">
-            {mode === "tree" && (
-              <SummaryTree dataSource={treeDataSource} onSelect={requestSelect} />
-            )}
-            {mode === "list" && (
-              <SummaryList
-                dataSource={listDataSource}
-                onSelect={requestSelect}
-                filenameKeywords={filenameKeywords}
-              />
-            )}
-          </div>
-        )}
-      </div>
-    </ConfigProvider>
+      {mode === "file" ? (
+        <div className="report-editor-body">
+          {isFileDataReady ? (
+            <CoverageDetail source={fileContent} coverage={fileCoverage} theme={theme} />
+          ) : (
+            <div className="report-loading" role="status">
+              Loading file…
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="report-scroll-body">
+          {mode === "tree" && (
+            <SummaryTree dataSource={treeDataSource} onSelect={requestSelect} />
+          )}
+          {mode === "list" && (
+            <SummaryList
+              dataSource={listDataSource}
+              onSelect={requestSelect}
+              filenameKeywords={filenameKeywords}
+            />
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 

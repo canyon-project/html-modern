@@ -1,93 +1,88 @@
-import { ConfigProvider, Progress, Table } from "antd";
-import type { TableColumnsType } from "antd";
-import type { CSSProperties, FC } from "react";
-import Highlighter from "react-highlight-words";
+import type { FC } from "react";
+import { useMemo, useState } from "react";
 
-import { getColor } from "../helpers/color";
 import type { DataSourceItem } from "../types";
+import { CoverageMeter } from "./CoverageMeter";
+import {
+  SortableTh,
+  highlightMatch,
+  sortCoverageRows,
+  type SortDir,
+  type SortKey,
+} from "./table-utils";
 
 const SummaryList: FC<{
   dataSource: DataSourceItem[];
   onSelect: (path: string) => void;
   filenameKeywords: string;
-  style?: CSSProperties;
-}> = ({ dataSource, onSelect, filenameKeywords, style }) => {
-  const columns: TableColumnsType<DataSourceItem> = [
-    {
-      title: "Files",
-      key: "path",
-      dataIndex: "path",
-      render(text: string) {
-        return (
-          <a
-            onClick={() => {
-              onSelect(text);
-            }}
-          >
-            <Highlighter
-              highlightClassName="YourHighlightClass"
-              searchWords={[filenameKeywords]}
-              autoEscape={true}
-              textToHighlight={text}
-            />
-          </a>
-        );
-      },
-    },
-    {
-      title: "Total",
-      key: "total",
-      dataIndex: ["statements", "total"],
-      sorter: (a, b) => a.statements.total - b.statements.total,
-    },
-    {
-      title: "Covered",
-      key: "covered",
-      dataIndex: ["statements", "covered"],
-      sorter: (a, b) => a.statements.covered - b.statements.covered,
-    },
-    {
-      title: "Coverage %",
-      width: "240px",
-      key: "c",
-      sorter: (a, b) => a.statements.pct - b.statements.pct,
-      dataIndex: ["statements", "pct"],
-      render(text: number) {
-        return (
-          <Progress
-            percent={text}
-            strokeLinecap="butt"
-            size="small"
-            strokeColor={getColor(text)}
-            style={{ paddingRight: "5px" }}
-            status="normal"
-          />
-        );
-      },
-    },
-  ];
+}> = ({ dataSource, onSelect, filenameKeywords }) => {
+  const [sortKey, setSortKey] = useState<SortKey>("path");
+  const [sortDir, setSortDir] = useState<SortDir>("asc");
+
+  const rows = useMemo(
+    () => sortCoverageRows(dataSource, sortKey, sortDir),
+    [dataSource, sortKey, sortDir],
+  );
+
+  const onSort = (key: SortKey) => {
+    if (key === sortKey) {
+      setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+      return;
+    }
+    setSortKey(key);
+    setSortDir(key === "path" ? "asc" : "desc");
+  };
 
   return (
-    <div style={style}>
-      <ConfigProvider
-        theme={{
-          token: {
-            borderRadius: 0,
-          },
-        }}
-      >
-        <Table
-          bordered={true}
-          pagination={{
-            defaultPageSize: 15,
-            pageSizeOptions: [50, 100],
-          }}
-          size="small"
-          dataSource={dataSource}
-          rowKey="path"
-          columns={columns}
-        />
-      </ConfigProvider>
+    <div className="coverage-table-wrap">
+      <table className="coverage-table">
+        <thead>
+          <tr>
+            <SortableTh label="File" sortKey="path" activeKey={sortKey} dir={sortDir} onSort={onSort} />
+            <SortableTh
+              label="Total"
+              sortKey="total"
+              activeKey={sortKey}
+              dir={sortDir}
+              onSort={onSort}
+              className="is-num"
+            />
+            <SortableTh
+              label="Covered"
+              sortKey="covered"
+              activeKey={sortKey}
+              dir={sortDir}
+              onSort={onSort}
+              className="is-num"
+            />
+            <SortableTh
+              label="Coverage"
+              sortKey="pct"
+              activeKey={sortKey}
+              dir={sortDir}
+              onSort={onSort}
+              className="is-coverage"
+            />
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.path}>
+              <td>
+                <button type="button" className="path-link" onClick={() => onSelect(row.path)}>
+                  {highlightMatch(row.path, filenameKeywords)}
+                </button>
+              </td>
+              <td className="is-num">{row.statements.total}</td>
+              <td className="is-num">{row.statements.covered}</td>
+              <td className="is-coverage">
+                <CoverageMeter pct={row.statements.pct} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {rows.length === 0 ? <p className="empty-hint">No files match the current filter.</p> : null}
     </div>
   );
 };
