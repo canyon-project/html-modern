@@ -18,6 +18,39 @@ import { ReportApp, buildReportFiles } from "@canyonjs/html-modern";
 import "@canyonjs/html-modern/style.css";
 ```
 
+## Istanbul reporter
+
+Install a peer dependency (one of):
+
+```bash
+pnpm add -D @canyonjs/html-modern istanbul-lib-report
+# or with Vitest's istanbul fork:
+pnpm add -D @canyonjs/html-modern @vitest/istanbul-lib-report
+```
+
+**Vitest** (`vitest.config.ts`):
+
+```ts
+export default defineConfig({
+  test: {
+    coverage: {
+      provider: "istanbul",
+      reporter: [["@canyonjs/html-modern/reporter", { writeReportDataJson: true }]],
+    },
+  },
+});
+```
+
+**nyc** (`.nycrc` / `package.json`):
+
+```json
+{
+  "reporter": [["@canyonjs/html-modern/reporter", { "writeReportDataJson": true }]]
+}
+```
+
+Reporter options: `verbose`, `projectRoot`, `writeReportDataJson`, `metricsToShow`, `skipEmpty`, `summarizer`.
+
 ## Single-file HTML page
 
 `pnpm build` also emits `dist/page/index.html` (JS/CSS inlined via `vite-plugin-singlefile`).
@@ -52,6 +85,7 @@ Push to `main` triggers `.github/workflows/publish.yml`: typecheck → test → 
 
 ```
 src/           # React component library (tsdown → dist/)
+src/reporter/  # istanbul HtmlModernReport (tsdown → dist/reporter.js)
 src/page/      # single-file HTML page (vite → dist/page/)
 playground/    # local dev playground
 coverage/      # sample report-data.json for playground / page dev
