@@ -1,4 +1,4 @@
-import { EditorState, RangeSetBuilder, Text } from "@codemirror/state";
+import { EditorState, Text } from "@codemirror/state";
 import type { Extension } from "@codemirror/state";
 import { Decoration, EditorView, WidgetType, hoverTooltip } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "react";
@@ -55,24 +55,16 @@ class BranchWidget extends WidgetType {
 }
 
 function buildCoverageDecorations(doc: Text, annotations: CoverageAnnotation[]) {
-  const builder = new RangeSetBuilder<Decoration>();
-  const sorted = [...annotations].sort((a, b) => {
-    if (a.startLine !== b.startLine) {
-      return a.startLine - b.startLine;
-    }
-    return a.startCol - b.startCol;
-  });
+  const ranges = [];
 
-  for (const item of sorted) {
+  for (const item of annotations) {
     const from = posAt(doc, item.startLine, item.startCol);
     if (item.type === "I" || item.type === "E") {
-      builder.add(
-        from,
-        from,
+      ranges.push(
         Decoration.widget({
           widget: new BranchWidget(item.type),
           side: -1,
-        }),
+        }).range(from),
       );
       continue;
     }
@@ -81,17 +73,16 @@ function buildCoverageDecorations(doc: Text, annotations: CoverageAnnotation[]) 
     if (to <= from) {
       continue;
     }
-    builder.add(
-      from,
-      to,
+    ranges.push(
       Decoration.mark({
         class: item.type === "B" ? "content-class-no-found-branch" : "content-class-no-found",
         attributes: { title: UNCOVERED_HOVER[item.type] },
-      }),
+      }).range(from, to),
     );
   }
 
-  return builder.finish();
+  // Sort by `from` + `startSide` — RangeSetBuilder requires pre-sorted input.
+  return Decoration.set(ranges, true);
 }
 
 function coverageHoverTooltip(annotations: CoverageAnnotation[]): Extension {
