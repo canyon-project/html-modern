@@ -339,6 +339,9 @@ body {
 /* Tables — bordered compact table */
 .istanbul-html-modern .coverage-table-wrap {
   width: 100%;
+  border: 1px solid var(--report-border-secondary);
+  border-radius: var(--report-radius);
+  overflow: hidden;
 }
 
 .istanbul-html-modern .coverage-table {
@@ -346,9 +349,6 @@ body {
   border-collapse: collapse;
   border-spacing: 0;
   font-size: 14px;
-  border: 1px solid var(--report-border-secondary);
-  border-radius: var(--report-radius);
-  overflow: hidden;
 }
 
 .istanbul-html-modern .coverage-table th,
