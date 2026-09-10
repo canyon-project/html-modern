@@ -1,6 +1,5 @@
 import type { Extension } from "@codemirror/state";
 import { gutter, GutterMarker } from "@codemirror/view";
-import { renderToStaticMarkup } from "react-dom/server";
 
 export interface LineState {
   lineNumber: number;
@@ -17,31 +16,6 @@ function hitBackground(hit: number): string {
   return "var(--report-line-hit-neutral)";
 }
 
-function LineNumberWrapper({
-  lineNumber,
-  line,
-  maxHitWidth,
-}: {
-  lineNumber: number;
-  line: LineState;
-  maxHitWidth: number;
-}) {
-  return (
-    <div className="line-number-wrapper">
-      <span className="line-number">{lineNumber}</span>
-      <span
-        className="line-coverage"
-        style={{
-          background: hitBackground(line.hit),
-          width: `${maxHitWidth}px`,
-        }}
-      >
-        {line.hit > 0 ? `${line.hit}x` : ""}
-      </span>
-    </div>
-  );
-}
-
 /** Render coverage line-number gutter HTML for a single line. */
 export function renderLineNumberGutter(lineNumber: number, linesState: LineState[]): string {
   const line = linesState.find((item) => item.lineNumber === lineNumber) ?? {
@@ -52,10 +26,9 @@ export function renderLineNumberGutter(lineNumber: number, linesState: LineState
   const maxHit = Math.max(0, ...linesState.map((item) => item.hit));
   const digitWidth = maxHit.toString().length;
   const maxHitWidth = (digitWidth + 2) * 7.2;
+  const hitLabel = line.hit > 0 ? `${line.hit}x` : "";
 
-  return renderToStaticMarkup(
-    <LineNumberWrapper lineNumber={lineNumber} line={line} maxHitWidth={maxHitWidth} />,
-  );
+  return `<div class="line-number-wrapper"><span class="line-number">${lineNumber}</span><span class="line-coverage" style="background:${hitBackground(line.hit)};width:${maxHitWidth}px">${hitLabel}</span></div>`;
 }
 
 class CoverageGutterMarker extends GutterMarker {
