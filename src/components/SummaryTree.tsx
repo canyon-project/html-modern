@@ -1,3 +1,4 @@
+import { File, Folder } from "lucide-react";
 import type { FC } from "react";
 import { useMemo, useState } from "react";
 
@@ -7,33 +8,6 @@ import { SortableTh, sortCoverageRows, type SortDir, type SortKey } from "./tabl
 
 function isSourceFile(path: string): boolean {
   return /\.(js|jsx|ts|tsx|mjs|cjs|mts|cts|vue|json|css|scss|less|html|md)$/i.test(path);
-}
-
-function FileIcon() {
-  return (
-    <svg className="path-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Z"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinejoin="round"
-      />
-      <path d="M14 2v6h6" stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function FolderIcon() {
-  return (
-    <svg className="path-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
 }
 
 const SummaryTree: FC<{
@@ -96,7 +70,11 @@ const SummaryTree: FC<{
               <tr key={row.path}>
                 <td>
                   <button type="button" className="path-link" onClick={() => onSelect(row.path)}>
-                    {isSourceFile(row.path) ? <FileIcon /> : <FolderIcon />}
+                    {isSourceFile(row.path) ? (
+                      <File className="path-icon" size={14} aria-hidden />
+                    ) : (
+                      <Folder className="path-icon" size={14} aria-hidden />
+                    )}
                     <span>{name}</span>
                   </button>
                 </td>
