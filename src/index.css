@@ -417,7 +417,6 @@ body {
 .istanbul-html-modern .path-link {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
   border: 0;
   background: transparent;
   font: inherit;
@@ -427,6 +426,7 @@ body {
 
 .istanbul-html-modern .path-icon {
   flex-shrink: 0;
+  margin-right: 4px;
   color: var(--report-secondary);
   font-size: 16px;
 }
