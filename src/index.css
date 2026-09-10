@@ -10,12 +10,12 @@
   --report-surface: #fafafa;
   --report-surface-hover: #f5f5f5;
   --report-control: #f5f5f5;
-  --report-link: #1677ff;
+  --report-link: #0071c2;
   --report-link-hover: #4096ff;
-  --report-primary: #1677ff;
+  --report-primary: #0071c2;
   --report-primary-shadow: rgba(5, 145, 255, 0.1);
-  --report-radius: 6px;
-  --report-radius-sm: 4px;
+  --report-radius: 3px;
+  --report-radius-sm: 2px;
   --report-line-coverage-bg: #eaeaea;
   --report-line-coverage-text: rgba(0, 0, 0, 0.5);
   --report-line-hit-covered: rgb(230, 245, 208);
@@ -27,7 +27,7 @@
   --report-uncovered-bg: #f3aeac;
   --report-decoration-bg: #000000;
   --report-decoration-text: #ffff00;
-  --report-tag-bg: #fafafa;
+  --report-tag-bg: #f5f5f5;
   --report-tag-border: #d9d9d9;
 }
 
@@ -46,8 +46,8 @@
   --report-link-hover: #3c89e8;
   --report-primary: #1668dc;
   --report-primary-shadow: rgba(9, 88, 217, 0.25);
-  --report-radius: 6px;
-  --report-radius-sm: 4px;
+  --report-radius: 3px;
+  --report-radius-sm: 2px;
   --report-line-coverage-bg: #303030;
   --report-line-coverage-text: rgba(255, 255, 255, 0.45);
   --report-line-hit-covered: rgb(45, 74, 34);
@@ -182,9 +182,8 @@ body {
   color: var(--report-text);
   font: inherit;
   font-size: 14px;
-  line-height: 1.2;
+  line-height: 1.1;
   padding: 2px 11px;
-  min-height: 24px;
   border-radius: var(--report-radius-sm);
   cursor: pointer;
   transition:
@@ -292,8 +291,8 @@ body {
 }
 
 .istanbul-html-modern .summary-nav__sep {
-  color: var(--report-muted);
-  font-weight: 400;
+  color: var(--report-text);
+  font-weight: bold;
 }
 
 .istanbul-html-modern .summary-metrics {
@@ -325,7 +324,6 @@ body {
   padding: 0 7px;
   border-radius: var(--report-radius-sm);
   background: var(--report-tag-bg);
-  border: 1px solid var(--report-tag-border);
   color: var(--report-text);
   font-size: 12px;
   line-height: 20px;
@@ -456,7 +454,7 @@ body {
 
 .istanbul-html-modern .coverage-meter__track {
   flex: 1;
-  height: 8px;
+  height: 6px;
   border-radius: 0;
   background: var(--report-border-secondary);
   overflow: hidden;
@@ -490,6 +488,7 @@ body {
 
 .istanbul-html-modern .line-number-wrapper > span {
   display: block;
+    text-align: right;
 }
 
 .istanbul-html-modern .line-coverage {
