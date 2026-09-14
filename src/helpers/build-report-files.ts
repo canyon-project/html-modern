@@ -1,3 +1,4 @@
+import type { FileTagRule } from "../file-tags";
 import { projectRootBaseName, resolveSource, toRelativePath } from "../paths";
 import type { FileCoverageData, ReportAppFile } from "../types";
 
@@ -5,6 +6,9 @@ export interface ReportDataLike {
   projectRoot?: string;
   coverage: Record<string, FileCoverageData | unknown>;
   sources: Record<string, string>;
+  html?: { fileTags?: FileTagRule[] };
+  fileTagRules?: FileTagRule[];
+  fileTagsByPath?: Record<string, string[]>;
 }
 
 /** Build `ReportApp` files from serialized report payload (absolute paths + sources). */
@@ -12,6 +16,8 @@ export function buildReportFiles(reportData: ReportDataLike): {
   files: ReportAppFile[];
   projectRoot: string;
   name: string;
+  fileTagRules?: FileTagRule[];
+  fileTagsByPath?: Record<string, string[]>;
 } {
   const projectRoot = reportData.projectRoot ?? "";
   const coverage = reportData.coverage as Record<string, FileCoverageData>;
@@ -29,5 +35,7 @@ export function buildReportFiles(reportData: ReportDataLike): {
     files,
     projectRoot,
     name: projectRootBaseName(projectRoot),
+    fileTagRules: reportData.fileTagRules ?? reportData.html?.fileTags,
+    fileTagsByPath: reportData.fileTagsByPath,
   };
 }

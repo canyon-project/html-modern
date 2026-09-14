@@ -14,6 +14,9 @@ importers:
       lucide-preact:
         specifier: ^1.28.0
         version: 1.45.0(preact@10.29.8)
+      picomatch:
+        specifier: ^4.0.7
+        version: 4.0.7
     devDependencies:
       '@codemirror/lang-javascript':
         specifier: ^6.2.4
@@ -45,6 +48,9 @@ importers:
       '@types/node':
         specifier: ^26.2.0
         version: 26.4.1
+      '@types/picomatch':
+        specifier: ^4.0.3
+        version: 4.0.3
       '@vitest/coverage-v8':
         specifier: ^5.0.0
         version: 5.0.0(vitest@5.0.0)
@@ -659,6 +665,9 @@ packages:
 
   '@types/node@26.4.1':
     resolution: {integrity: sha512-k97ENvZWtvA6yqz5/FS6a7duDgOPEeOQOc2iKS/nY6mX6qJUKtLnWzQS+Xj6tXweyj6ZcTAK2Qecetnvi9nCLA==}
+
+  '@types/picomatch@4.0.3':
+    resolution: {integrity: sha512-iG0T6+nYJ9FAPmx9SsUlnwcq1ZVRuCXcVEvWnntoPlrOpwtSTKNDC9uVAxTsC3PUvJ+99n4RpAcNgBbHX3JSnQ==}
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     resolution: {integrity: sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==}
@@ -2089,6 +2098,8 @@ snapshots:
   '@types/node@26.4.1':
     dependencies:
       undici-types: 8.3.0
+
+  '@types/picomatch@4.0.3': {}
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     optional: true

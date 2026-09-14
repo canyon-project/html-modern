@@ -66,6 +66,26 @@ describe("buildSummaryTree", () => {
 });
 
 describe("deriveSummaryViews", () => {
+  it("filters by any selected tag", () => {
+    const dataSource = [
+      { path: "src/a.ts", tags: ["team-a"], ...fileCoverageToSummary(makeFile("src/a.ts", [1])) },
+      { path: "src/b.ts", tags: ["team-b"], ...fileCoverageToSummary(makeFile("src/b.ts", [1])) },
+      { path: "src/c.ts", tags: ["team-a", "P0"], ...fileCoverageToSummary(makeFile("src/c.ts", [1])) },
+    ];
+
+    const views = deriveSummaryViews({
+      dataSource,
+      filenameKeywords: "",
+      selectedTags: ["team-a", "P0"],
+      value: "",
+    });
+
+    assert.deepEqual(
+      views.listDataSource.map((item) => item.path),
+      ["src/a.ts", "src/c.ts"],
+    );
+  });
+
   it("filters by keywords and current path", () => {
     const dataSource = [
       { path: "src/a.ts", ...fileCoverageToSummary(makeFile("src/a.ts", [1])) },

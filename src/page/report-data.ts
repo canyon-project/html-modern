@@ -5,6 +5,7 @@ export interface ReportData {
     subdir?: string;
     skipEmpty?: boolean;
     metricsToShow?: ("lines" | "branches" | "functions" | "statements")[];
+    fileTags?: { glob: string; tag: string }[];
   };
   istanbul?: {
     dir: string;
@@ -26,6 +27,8 @@ export interface ReportData {
   projectRoot: string;
   coverage: Record<string, unknown>;
   sources: Record<string, string>;
+  fileTagRules?: { glob: string; tag: string }[];
+  fileTagsByPath?: Record<string, string[]>;
   generatedAt?: string;
   packageName?: string;
   packageVersion?: string;

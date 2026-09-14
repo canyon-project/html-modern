@@ -50,7 +50,29 @@ export default defineConfig({
 }
 ```
 
-Reporter options: `verbose`, `projectRoot`, `writeReportDataJson`, `metricsToShow`, `skipEmpty`, `summarizer`.
+Reporter options: `verbose`, `projectRoot`, `writeReportDataJson`, `metricsToShow`, `skipEmpty`, `summarizer`, `fileTags`.
+
+### File tags (filter in HTML report)
+
+Tag files with glob rules and filter the report UI by tag (Any match when multiple tags are selected):
+
+```ts
+reporter: [
+  [
+    "@canyonjs/html-modern/reporter",
+    {
+      writeReportDataJson: true,
+      fileTags: [
+        { glob: "src/payments/**", tag: "payments" },
+        { glob: "src/auth/**", tag: "auth" },
+        { glob: "**/critical/**", tag: "P0" },
+      ],
+    },
+  ],
+],
+```
+
+Globs are relative to `projectRoot` (same paths shown in the report table).
 
 ## Single-file HTML page
 

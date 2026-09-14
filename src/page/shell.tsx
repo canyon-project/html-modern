@@ -24,7 +24,13 @@ export function ReportShell() {
   return (
     <div className="report-page">
       <div className="report-page__content">
-        <ReportApp files={prepared.files} projectRoot={prepared.projectRoot} name={prepared.name} />
+        <ReportApp
+          files={prepared.files}
+          projectRoot={prepared.projectRoot}
+          name={prepared.name}
+          fileTagRules={prepared.fileTagRules}
+          fileTagsByPath={prepared.fileTagsByPath}
+        />
       </div>
       <ReportFooter
         generatedAt={reportData.generatedAt}

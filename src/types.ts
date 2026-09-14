@@ -1,3 +1,5 @@
+import type { FileTagRule } from "./file-tags.js";
+
 export interface CoverageLocation {
   line: number;
   column: number;
@@ -40,6 +42,8 @@ export interface CoverageTotals {
 
 export interface DataSourceItem {
   path: string;
+  /** tags resolved from reporter {@link FileTagRule} config */
+  tags?: string[];
   statements: CoverageTotals;
   branches: CoverageTotals;
   functions: CoverageTotals;
@@ -58,6 +62,8 @@ export interface ReportProps {
   value: string;
   dataSource: DataSourceItem[];
   onSelect: (val: string) => Promise<FileDataResponse>;
+  /** configured tag rules; when set, enables tag filtering in the UI */
+  fileTagRules?: FileTagRule[];
 }
 
 export interface ReportAppFile extends FileCoverageData {
@@ -71,4 +77,6 @@ export interface ReportAppProps {
   name?: string;
   /** Initial path when there is no hash, e.g. `src/index.ts` */
   defaultValue?: string;
+  fileTagRules?: FileTagRule[];
+  fileTagsByPath?: Record<string, string[]>;
 }

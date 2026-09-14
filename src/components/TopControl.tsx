@@ -2,14 +2,29 @@ import { List, ListTree, Moon, Sun } from "lucide-preact";
 import type { FunctionalComponent as FC } from "preact";
 
 import { useTheme } from "../theme-context";
+import TagFilter from "./TagFilter";
 
 const TopControl: FC<{
   total: number;
   showMode: string;
   filenameKeywords: string;
+  availableTags: string[];
+  tagCounts: ReadonlyMap<string, number>;
+  selectedTags: string[];
+  onChangeSelectedTags: (tags: string[]) => void;
   onChangeShowMode: (mode: string) => void;
   onChangeKeywords: (word: string) => void;
-}> = ({ total, showMode, onChangeShowMode, onChangeKeywords, filenameKeywords }) => {
+}> = ({
+  total,
+  showMode,
+  onChangeShowMode,
+  onChangeKeywords,
+  filenameKeywords,
+  availableTags,
+  tagCounts,
+  selectedTags,
+  onChangeSelectedTags,
+}) => {
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -38,6 +53,12 @@ const TopControl: FC<{
         </div>
 
         <div className="top-control__right">
+          <TagFilter
+            availableTags={availableTags}
+            tagCounts={tagCounts}
+            selectedTags={selectedTags}
+            onChangeSelectedTags={onChangeSelectedTags}
+          />
           <button
             type="button"
             className="icon-btn"
