@@ -33,7 +33,7 @@
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --report-bg: #1E1E1E;
+  --report-bg: #141414;
   --report-text: rgba(255, 255, 255, 0.85);
   --report-muted: rgba(255, 255, 255, 0.45);
   --report-secondary: rgba(255, 255, 255, 0.65);
