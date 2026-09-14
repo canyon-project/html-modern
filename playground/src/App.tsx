@@ -5,8 +5,8 @@ import "@canyonjs/html-modern/style.css";
 import reportData from "@repo/fixtures/report-data.json";
 import { useMemo } from "preact/hooks";
 
-import { resolveFileTags } from "../../src/reporter/resolve-file-tags";
 import { toRelativePath } from "../../src/paths";
+import { resolveFileTags } from "../../src/reporter/resolve-file-tags";
 
 const playgroundFileTags: FileTagRule[] = [
   { glob: "src/**", tag: "src" },

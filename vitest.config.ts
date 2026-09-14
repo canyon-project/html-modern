@@ -10,13 +10,20 @@ export default defineConfig({
     coverage: {
       enabled: true,
       reportsDirectory: "./coverage/raw",
-      reporter: [htmlModernReporter,{
-        fileTags: [
-          { glob: "src/payments/**", tag: "payments" },
-          { glob: "src/auth/**", tag: "auth" },
-          { glob: "**/critical/**", tag: "P0" },
+      reporter: [
+        [
+          htmlModernReporter,
+          {
+            fileTags: [
+              { glob: "src/reporter/**", tag: "reporter" },
+              { glob: "src/page/**", tag: "page" },
+              { glob: "src/components/**", tag: "components" },
+              { glob: "src/helpers/**", tag: "helpers" },
+              { glob: "src/*.{ts,tsx}", tag: "core" },
+            ],
+          },
         ],
-      }],
+      ],
     },
   },
 });

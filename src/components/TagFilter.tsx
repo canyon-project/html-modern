@@ -47,7 +47,9 @@ const TagFilter: FC<{
     <div className="tag-filter" ref={rootRef}>
       <button
         type="button"
-        className={open || selectedTags.length > 0 ? "tag-filter__trigger is-active" : "tag-filter__trigger"}
+        className={
+          open || selectedTags.length > 0 ? "tag-filter__trigger is-active" : "tag-filter__trigger"
+        }
         aria-expanded={open}
         aria-haspopup="listbox"
         onClick={() => setOpen((prev) => !prev)}
@@ -66,11 +68,7 @@ const TagFilter: FC<{
             const count = tagCounts.get(tag) ?? 0;
             return (
               <label key={tag} className="tag-filter__option">
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={() => toggleTag(tag)}
-                />
+                <input type="checkbox" checked={checked} onChange={() => toggleTag(tag)} />
                 <span className="tag-filter__option-label">{tag}</span>
                 <span className="tag-filter__option-count">{count}</span>
               </label>

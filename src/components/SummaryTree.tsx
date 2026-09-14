@@ -94,9 +94,7 @@ const SummaryTree: FC<{
           })}
         </tbody>
       </table>
-      {rows.length === 0 ? (
-        <p className="empty-hint">No files match the current filters.</p>
-      ) : null}
+      {rows.length === 0 ? <p className="empty-hint">No files match the current filters.</p> : null}
     </div>
   );
 };

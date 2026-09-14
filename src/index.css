@@ -156,6 +156,13 @@ body {
   gap: 8px;
 }
 
+.istanbul-html-modern .top-control__filters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
 .istanbul-html-modern .top-control__count {
   font-size: 14px;
   color: var(--report-text);
@@ -305,7 +312,7 @@ body {
 .istanbul-html-modern .tag-filter__menu {
   position: absolute;
   top: calc(100% + 4px);
-  right: 0;
+  left: 0;
   z-index: 20;
   min-width: 180px;
   max-height: 280px;

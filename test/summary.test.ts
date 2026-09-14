@@ -70,7 +70,11 @@ describe("deriveSummaryViews", () => {
     const dataSource = [
       { path: "src/a.ts", tags: ["team-a"], ...fileCoverageToSummary(makeFile("src/a.ts", [1])) },
       { path: "src/b.ts", tags: ["team-b"], ...fileCoverageToSummary(makeFile("src/b.ts", [1])) },
-      { path: "src/c.ts", tags: ["team-a", "P0"], ...fileCoverageToSummary(makeFile("src/c.ts", [1])) },
+      {
+        path: "src/c.ts",
+        tags: ["team-a", "P0"],
+        ...fileCoverageToSummary(makeFile("src/c.ts", [1])),
+      },
     ];
 
     const views = deriveSummaryViews({

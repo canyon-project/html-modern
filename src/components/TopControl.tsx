@@ -53,12 +53,21 @@ const TopControl: FC<{
         </div>
 
         <div className="top-control__right">
-          <TagFilter
-            availableTags={availableTags}
-            tagCounts={tagCounts}
-            selectedTags={selectedTags}
-            onChangeSelectedTags={onChangeSelectedTags}
-          />
+          <div className="top-control__filters">
+            <TagFilter
+              availableTags={availableTags}
+              tagCounts={tagCounts}
+              selectedTags={selectedTags}
+              onChangeSelectedTags={onChangeSelectedTags}
+            />
+            <input
+              className="search-input"
+              type="search"
+              placeholder="Search for files"
+              value={filenameKeywords}
+              onChange={(event) => onChangeKeywords(event.currentTarget.value)}
+            />
+          </div>
           <button
             type="button"
             className="icon-btn"
@@ -68,13 +77,6 @@ const TopControl: FC<{
           >
             {theme === "dark" ? <Sun size={16} aria-hidden /> : <Moon size={16} aria-hidden />}
           </button>
-          <input
-            className="search-input"
-            type="search"
-            placeholder="Search for files"
-            value={filenameKeywords}
-            onChange={(event) => onChangeKeywords(event.currentTarget.value)}
-          />
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
 import fs from "node:fs";
 import { createRequire } from "node:module";
 
+import { toRelativePath } from "../paths.js";
 import { resolveProjectRoot } from "./infer-project-root.js";
 import type { HtmlModernOptions } from "./options.js";
 import { resolveFileTags } from "./resolve-file-tags.js";
-import { toRelativePath } from "../paths.js";
 import type {
   CoverageData,
   GenerateOptions,
