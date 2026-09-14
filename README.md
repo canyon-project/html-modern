@@ -8,7 +8,8 @@ Peer dependencies must be installed in your app:
 
 ```bash
 pnpm add @canyonjs/html-modern preact \
-  @codemirror/view @codemirror/state @codemirror/language @codemirror/lang-javascript
+  @codemirror/view @codemirror/state @codemirror/language @codemirror/lang-javascript \
+  @codemirror/theme-one-dark
 ```
 
 ## Usage (Preact library)

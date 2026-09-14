@@ -10,6 +10,7 @@
   --report-surface: #fafafa;
   --report-surface-hover: #f5f5f5;
   --report-control: #f5f5f5;
+  --report-active-bg: #ffffff;
   --report-link: #0071c2;
   --report-link-hover: #4096ff;
   --report-primary: #0071c2;
@@ -39,9 +40,10 @@
   --report-secondary: rgba(255, 255, 255, 0.65);
   --report-border: #424242;
   --report-border-secondary: #303030;
-  --report-surface: #1f1f1f;
+  --report-surface: #1E1E1E;
   --report-surface-hover: #262626;
-  --report-control: #1f1f1f;
+  --report-control: #1E1E1E;
+  --report-active-bg: #000000;
   --report-link: #1668dc;
   --report-link-hover: #3c89e8;
   --report-primary: #1668dc;
@@ -59,7 +61,7 @@
   --report-uncovered-bg: #5c3534;
   --report-decoration-bg: #434343;
   --report-decoration-text: #fadb14;
-  --report-tag-bg: #1f1f1f;
+  --report-tag-bg: #272727;
   --report-tag-border: #424242;
 }
 
@@ -99,6 +101,7 @@ body {
   flex: 1;
   min-height: 0;
   overflow: auto;
+  padding-right: 3px;
 }
 
 .istanbul-html-modern .report-editor-body {
@@ -189,7 +192,7 @@ body {
 }
 
 .istanbul-html-modern .view-toggle__btn.is-active {
-  background: var(--report-bg);
+  background: var(--report-active-bg);
   color: var(--report-text);
   box-shadow:
     0 1px 2px 0 rgba(0, 0, 0, 0.03),
@@ -473,6 +476,7 @@ body {
 /* Code viewer */
 .istanbul-html-modern .line-number {
   margin-right: 5px;
+  font-variant-numeric: tabular-nums;
 }
 
 .istanbul-html-modern .line-number-wrapper {
@@ -536,6 +540,9 @@ body {
   height: 100%;
   max-height: 100%;
   background: var(--report-bg);
+}
+
+[data-theme="light"] .istanbul-html-modern .coverage-detail-editor .cm-editor {
   color: var(--report-text);
 }
 

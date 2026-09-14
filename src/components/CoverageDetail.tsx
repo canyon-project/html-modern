@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef } from "preact/hooks";
 
 import {
   coverageHighlight,
+  darkCoverageHighlight,
   darkEditorTheme,
   languageExtensionFromPath,
   lightEditorTheme,
@@ -130,7 +131,7 @@ function createEditorExtensions(options: {
     EditorView.editable.of(false),
     languageExtensionFromPath(filePath),
     theme === "dark" ? darkEditorTheme : lightEditorTheme,
-    coverageHighlight,
+    theme === "dark" ? darkCoverageHighlight : coverageHighlight,
     coverageLineGutter(linesState),
     EditorView.decorations.of(decorationSet),
     coverageHoverTooltip(annotations),
