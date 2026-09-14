@@ -1,6 +1,6 @@
 import type { FunctionalComponent as FC } from "preact";
 
-import { getColor } from "../helpers/color";
+import { getColor, type StatementWatermarks } from "../helpers/color";
 import type { DataSourceItem } from "../types";
 
 const SUMMARY_LABELS: Record<string, string> = {
@@ -60,11 +60,14 @@ const SummaryMetric: FC<{ data: DataSourceItem }> = ({ data }) => {
   );
 };
 
-const SummaryBar: FC<{ pct: number }> = ({ pct }) => {
+const SummaryBar: FC<{ pct: number; statementWatermarks?: StatementWatermarks }> = ({
+  pct,
+  statementWatermarks,
+}) => {
   return (
     <div
       className="summary-bar"
-      style={{ backgroundColor: getColor(pct) }}
+      style={{ backgroundColor: getColor(pct, statementWatermarks) }}
       role="presentation"
       aria-hidden="true"
     />
@@ -76,12 +79,13 @@ const SummaryHeader: FC<{
   onSelect: (value: string) => void;
   data: DataSourceItem;
   reportName: string;
-}> = ({ value, onSelect, data, reportName }) => {
+  statementWatermarks?: StatementWatermarks;
+}> = ({ value, onSelect, data, reportName, statementWatermarks }) => {
   return (
     <header className="summary-header">
       <SummaryNav reportName={reportName} value={value} onClick={onSelect} />
       <SummaryMetric data={data} />
-      <SummaryBar pct={data.statements.pct} />
+      <SummaryBar pct={data.statements.pct} statementWatermarks={statementWatermarks} />
     </header>
   );
 };

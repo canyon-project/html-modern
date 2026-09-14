@@ -6,15 +6,24 @@ import SummaryHeader from "./components/SummaryHeader";
 import SummaryList from "./components/SummaryList";
 import SummaryTree from "./components/SummaryTree";
 import TopControl from "./components/TopControl";
-import { deriveSummaryViews } from "./helpers/derive-views";
+import { collectAvailableTags } from "./file-tags";
+import { deriveSummaryViews, filterDataSourceBase } from "./helpers/derive-views";
 import { emptyFileCoverage } from "./helpers/empty-coverage";
 import { ThemeProvider, useTheme } from "./theme-context";
 import type { FileCoverageData, ReportProps } from "./types";
 
-const ReportContent: FC<ReportProps> = ({ value, name, dataSource, onSelect }) => {
+const ReportContent: FC<ReportProps> = ({
+  value,
+  name,
+  dataSource,
+  onSelect,
+  fileTagRules,
+  statementWatermarks,
+}) => {
   const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const [filenameKeywords, setFilenameKeywords] = useState("");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [showMode, setShowMode] = useState("tree");
   const [fileCoverage, setFileCoverage] = useState<FileCoverageData>(emptyFileCoverage);
   const [fileContent, setFileContent] = useState("");
@@ -53,14 +62,31 @@ const ReportContent: FC<ReportProps> = ({ value, name, dataSource, onSelect }) =
   const mode = isFile ? "file" : showMode;
   const isFileDataReady = isFile && !isLoading;
 
+  const availableTags = useMemo(() => collectAvailableTags(fileTagRules), [fileTagRules]);
+
+  const tagCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const tag of availableTags) {
+      counts.set(tag, 0);
+    }
+    const baseRows = filterDataSourceBase({ dataSource, filenameKeywords, value });
+    for (const row of baseRows) {
+      for (const tag of row.tags ?? []) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
+    }
+    return counts;
+  }, [availableTags, dataSource, filenameKeywords, value]);
+
   const { treeDataSource, rootDataSource, listDataSource } = useMemo(
     () =>
       deriveSummaryViews({
         dataSource,
         filenameKeywords,
+        selectedTags,
         value,
       }),
-    [dataSource, value, filenameKeywords],
+    [dataSource, value, filenameKeywords, selectedTags],
   );
 
   return (
@@ -71,12 +97,17 @@ const ReportContent: FC<ReportProps> = ({ value, name, dataSource, onSelect }) =
         onChangeShowMode={setShowMode}
         total={listDataSource.length}
         onChangeKeywords={setFilenameKeywords}
+        availableTags={availableTags}
+        tagCounts={tagCounts}
+        selectedTags={selectedTags}
+        onChangeSelectedTags={setSelectedTags}
       />
       <SummaryHeader
         reportName={name}
         data={rootDataSource}
         value={value}
         onSelect={requestSelect}
+        statementWatermarks={statementWatermarks}
       />
 
       {mode === "file" ? (
@@ -91,12 +122,19 @@ const ReportContent: FC<ReportProps> = ({ value, name, dataSource, onSelect }) =
         </div>
       ) : (
         <div className="report-scroll-body">
-          {mode === "tree" && <SummaryTree dataSource={treeDataSource} onSelect={requestSelect} />}
+          {mode === "tree" && (
+            <SummaryTree
+              dataSource={treeDataSource}
+              onSelect={requestSelect}
+              statementWatermarks={statementWatermarks}
+            />
+          )}
           {mode === "list" && (
             <SummaryList
               dataSource={listDataSource}
               onSelect={requestSelect}
               filenameKeywords={filenameKeywords}
+              statementWatermarks={statementWatermarks}
             />
           )}
         </div>

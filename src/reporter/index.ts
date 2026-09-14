@@ -10,7 +10,8 @@ import { extractIstanbulContext } from "./istanbul-context.js";
 import type { HtmlModernOptions } from "./options.js";
 import { ReportBase } from "./resolve-istanbul-lib-report.js";
 
-export type { LinkMapper, HtmlModernOptions } from "./options.js";
+export type { FileTagRule, LinkMapper, HtmlModernOptions } from "./options.js";
+export { collectAvailableTags, resolveFileTags } from "./resolve-file-tags.js";
 export type {
   CoverageData,
   GenerateOptions,

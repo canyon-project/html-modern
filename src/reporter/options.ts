@@ -1,5 +1,9 @@
 import type { ReportNode } from "istanbul-lib-report";
 
+import type { FileTagRule } from "../file-tags.js";
+
+export type { FileTagRule };
+
 /** maps report nodes to output paths (reserved; not used by the modern single-file writer) */
 export interface LinkMapper {
   getPath(node: ReportNode | string): string;
@@ -27,4 +31,6 @@ export interface HtmlModernOptions {
   projectRoot?: string;
   /** write `report-data.json` alongside `index.html` in the report output directory */
   writeReportDataJson?: boolean;
+  /** tag rules used to filter files in the HTML report UI */
+  fileTags?: FileTagRule[];
 }

@@ -2,6 +2,7 @@ import { File, Folder } from "lucide-preact";
 import type { FunctionalComponent as FC } from "preact";
 import { useMemo, useState } from "preact/hooks";
 
+import type { StatementWatermarks } from "../helpers/color";
 import type { DataSourceItem } from "../types";
 import { CoverageMeter } from "./CoverageMeter";
 import { SortableTh, sortCoverageRows, type SortDir, type SortKey } from "./table-utils";
@@ -13,7 +14,8 @@ function isSourceFile(path: string): boolean {
 const SummaryTree: FC<{
   dataSource: DataSourceItem[];
   onSelect: (path: string) => void;
-}> = ({ dataSource, onSelect }) => {
+  statementWatermarks?: StatementWatermarks;
+}> = ({ dataSource, onSelect, statementWatermarks }) => {
   const [sortKey, setSortKey] = useState<SortKey>("path");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
 
@@ -87,14 +89,17 @@ const SummaryTree: FC<{
                 <td className="is-num">{row.statements.total}</td>
                 <td className="is-num">{row.statements.covered}</td>
                 <td className="is-coverage">
-                  <CoverageMeter pct={row.statements.pct} />
+                  <CoverageMeter
+                    pct={row.statements.pct}
+                    statementWatermarks={statementWatermarks}
+                  />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      {rows.length === 0 ? <p className="empty-hint">No entries in this directory.</p> : null}
+      {rows.length === 0 ? <p className="empty-hint">No files match the current filters.</p> : null}
     </div>
   );
 };

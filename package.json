@@ -1,6 +1,6 @@
 {
   "name": "@canyonjs/html-modern",
-  "version": "0.1.10",
+  "version": "0.1.12",
   "description": "Modern Istanbul HTML coverage report: Preact UI + istanbul reporter + single-file HTML page",
   "keywords": [
     "canyon",
@@ -39,13 +39,15 @@
     "dev": "vite",
     "play": "vite --config vite.config.playground.ts",
     "typecheck": "tsc --noEmit",
+    "pretest": "npm run build",
     "test": "vitest run",
     "preview": "vite preview",
     "fmt": "oxfmt",
     "lint": "oxlint"
   },
   "dependencies": {
-    "lucide-preact": "^1.28.0"
+    "lucide-preact": "^1.28.0",
+    "picomatch": "^4.0.7"
   },
   "devDependencies": {
     "@codemirror/lang-javascript": "^6.2.4",
@@ -58,7 +60,8 @@
     "@types/istanbul-lib-coverage": "^2.0.6",
     "@types/istanbul-lib-report": "^3.0.3",
     "@types/node": "^26.2.0",
-    "@vitest/coverage-v8": "4.1.11",
+    "@types/picomatch": "^4.0.3",
+    "@vitest/coverage-v8": "^5.0.0",
     "istanbul-lib-coverage": "^3.2.2",
     "istanbul-lib-report": "^3.0.1",
     "istanbul-reports": "3.1.7",
@@ -69,7 +72,7 @@
     "typescript": "^7.0.2",
     "vite": "^8.2.2",
     "vite-plugin-singlefile": "^2.3.0",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.0"
   },
   "peerDependencies": {
     "@codemirror/lang-javascript": "^6.2.0",

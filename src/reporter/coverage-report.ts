@@ -1,8 +1,10 @@
 import fs from "node:fs";
 import { createRequire } from "node:module";
 
+import { toRelativePath } from "../paths.js";
 import { resolveProjectRoot } from "./infer-project-root.js";
 import type { HtmlModernOptions } from "./options.js";
+import { resolveFileTags } from "./resolve-file-tags.js";
 import type {
   CoverageData,
   GenerateOptions,
@@ -42,6 +44,9 @@ function serializeHtmlOptions(options: HtmlModernOptions): SerializableHtmlModer
   if (options.writeReportDataJson !== undefined) {
     html.writeReportDataJson = options.writeReportDataJson;
   }
+  if (options.fileTags !== undefined) {
+    html.fileTags = options.fileTags;
+  }
 
   return html;
 }
@@ -68,6 +73,14 @@ export class CoverageReport {
       }
     }
 
+    const projectRoot = resolveProjectRoot(Object.keys(coverage), this.htmlOptions.projectRoot);
+    const relativePaths = Object.keys(coverage).map((filePath) =>
+      toRelativePath(filePath, projectRoot),
+    );
+    const fileTagsByPath = resolveFileTags(relativePaths, this.htmlOptions.fileTags, {
+      verbose: this.htmlOptions.verbose,
+    });
+
     return {
       html: serializeHtmlOptions(this.htmlOptions),
       istanbul,
@@ -75,9 +88,11 @@ export class CoverageReport {
         coverageFileCount: Object.keys(coverage).length,
         sourceFileCount: Object.keys(sources).length,
       },
-      projectRoot: resolveProjectRoot(Object.keys(coverage), this.htmlOptions.projectRoot),
+      projectRoot,
       coverage,
       sources,
+      fileTagRules: this.htmlOptions.fileTags,
+      fileTagsByPath: Object.keys(fileTagsByPath).length > 0 ? fileTagsByPath : undefined,
       generatedAt: new Date().toISOString(),
       packageName,
       packageVersion,
