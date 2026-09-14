@@ -33,7 +33,7 @@
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --report-bg: #141414;
+  --report-bg: #1E1E1E;
   --report-text: rgba(255, 255, 255, 0.85);
   --report-muted: rgba(255, 255, 255, 0.45);
   --report-secondary: rgba(255, 255, 255, 0.65);
@@ -536,6 +536,9 @@ body {
   height: 100%;
   max-height: 100%;
   background: var(--report-bg);
+}
+
+[data-theme="light"] .istanbul-html-modern .coverage-detail-editor .cm-editor {
   color: var(--report-text);
 }
 

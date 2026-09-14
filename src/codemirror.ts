@@ -1,6 +1,7 @@
 import { javascript } from "@codemirror/lang-javascript";
 import { defaultHighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import type { Extension } from "@codemirror/state";
+import { oneDarkHighlightStyle, oneDarkTheme } from "@codemirror/theme-one-dark";
 import { EditorView } from "@codemirror/view";
 
 /** Map coverage file paths to CodeMirror language extensions (JS/TS only). */
@@ -24,7 +25,9 @@ export function languageExtensionFromPath(filePath: string): Extension {
 
 export const coverageHighlight = syntaxHighlighting(defaultHighlightStyle, { fallback: true });
 
-const editorChrome = {
+export const darkCoverageHighlight = syntaxHighlighting(oneDarkHighlightStyle, { fallback: true });
+
+const baseEditorChrome = {
   "&": {
     height: "100%",
     fontSize: "12px",
@@ -37,10 +40,6 @@ const editorChrome = {
   ".cm-content": {
     padding: "0",
     caretColor: "transparent",
-  },
-  ".cm-gutters": {
-    border: "none",
-    backgroundColor: "var(--report-bg)",
   },
   ".cm-coverage-gutter": {
     minWidth: "auto",
@@ -58,20 +57,31 @@ const editorChrome = {
   },
 } as const;
 
-export const lightEditorTheme = EditorView.theme(editorChrome, { dark: false });
-
-export const darkEditorTheme = EditorView.theme(
+export const lightEditorTheme = EditorView.theme(
   {
-    ...editorChrome,
-    "&": {
-      ...editorChrome["&"],
-      backgroundColor: "var(--report-bg)",
-      color: "var(--report-text)",
-    },
+    ...baseEditorChrome,
     ".cm-gutters": {
-      ...editorChrome[".cm-gutters"],
-      color: "var(--report-line-coverage-text)",
+      border: "none",
+      backgroundColor: "var(--report-bg)",
     },
   },
-  { dark: true },
+  { dark: false },
 );
+
+export const darkEditorTheme: Extension = [
+  oneDarkTheme,
+  EditorView.theme(
+    {
+      ...baseEditorChrome,
+      "&": {
+        ...baseEditorChrome["&"],
+        backgroundColor: "var(--report-bg)",
+      },
+      ".cm-gutters": {
+        border: "none",
+        backgroundColor: "var(--report-bg)",
+      },
+    },
+    { dark: true },
+  ),
+];
