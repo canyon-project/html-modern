@@ -47,14 +47,6 @@ const baseEditorChrome = {
   ".cm-coverage-gutter .cm-gutterElement": {
     padding: "0 4px 0 0",
   },
-  ".cm-tooltip.cm-tooltip-hover": {
-    backgroundColor: "var(--report-decoration-bg)",
-    color: "var(--report-decoration-text)",
-    border: "none",
-    borderRadius: "4px",
-    padding: "4px 8px",
-    fontSize: "12px",
-  },
 } as const;
 
 export const lightEditorTheme = EditorView.theme(
