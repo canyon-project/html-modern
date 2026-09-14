@@ -1,4 +1,5 @@
-import { type FC, useEffect, useId, useMemo, useRef, useState } from "react";
+import type { FunctionalComponent as FC } from "preact";
+import { useEffect, useId, useMemo, useRef, useState } from "preact/hooks";
 
 import CoverageDetail from "./components/CoverageDetail";
 import SummaryHeader from "./components/SummaryHeader";

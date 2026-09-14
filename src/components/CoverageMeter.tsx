@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FunctionalComponent as FC } from "preact";
 
 import { getColor } from "../helpers/color";
 

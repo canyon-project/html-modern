@@ -1,7 +1,7 @@
-import type { FC, ReactNode } from "react";
+import type { ComponentChildren, FunctionalComponent as FC } from "preact";
 
 /** Highlight case-insensitive substring matches; no-op when query is empty. */
-export function highlightMatch(text: string, query: string): ReactNode {
+export function highlightMatch(text: string, query: string): ComponentChildren {
   const needle = query.trim();
   if (!needle) {
     return text;
@@ -9,7 +9,7 @@ export function highlightMatch(text: string, query: string): ReactNode {
 
   const lower = text.toLowerCase();
   const q = needle.toLowerCase();
-  const parts: ReactNode[] = [];
+  const parts: ComponentChildren[] = [];
   let start = 0;
   let index = lower.indexOf(q);
 

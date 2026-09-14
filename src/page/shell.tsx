@@ -1,7 +1,7 @@
 import { buildReportFiles, ReportApp } from "@canyonjs/html-modern";
 
 import "@canyonjs/html-modern/style.css";
-import { useMemo } from "react";
+import { useMemo } from "preact/hooks";
 
 import { ReportFooter } from "./components/ReportFooter";
 import type { ReportData } from "./report-data";

@@ -1,17 +1,17 @@
 # @canyonjs/html-modern
 
-Modern Istanbul HTML coverage report: React component library + single-file HTML page.
+Modern Istanbul HTML coverage report: Preact component library + single-file HTML page.
 
 ## Install
 
 Peer dependencies must be installed in your app:
 
 ```bash
-pnpm add @canyonjs/html-modern react react-dom \
+pnpm add @canyonjs/html-modern preact \
   @codemirror/view @codemirror/state @codemirror/language @codemirror/lang-javascript
 ```
 
-## Usage (React library)
+## Usage (Preact library)
 
 ```tsx
 import { ReportApp, buildReportFiles } from "@canyonjs/html-modern";
@@ -84,7 +84,7 @@ Push to `main` triggers `.github/workflows/publish.yml`: typecheck → test → 
 ## Layout
 
 ```
-src/           # React component library (tsdown → dist/)
+src/           # Preact component library (tsdown → dist/)
 src/reporter/  # istanbul HtmlModernReport (tsdown → dist/reporter.js)
 src/page/      # single-file HTML page (vite → dist/page/)
 playground/    # local dev playground

@@ -1,7 +1,7 @@
 import { EditorState, Text } from "@codemirror/state";
 import type { Extension } from "@codemirror/state";
 import { Decoration, EditorView, WidgetType, hoverTooltip } from "@codemirror/view";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "preact/hooks";
 
 import {
   coverageHighlight,

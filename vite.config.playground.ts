@@ -1,7 +1,7 @@
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import react from "@vitejs/plugin-react";
+import preact from "@preact/preset-vite";
 import { defineConfig } from "vite";
 
 const packageRoot = dirname(fileURLToPath(import.meta.url));
@@ -9,7 +9,7 @@ const packageRoot = dirname(fileURLToPath(import.meta.url));
 /** UI playground (consumes the public library API). */
 export default defineConfig({
   root: join(packageRoot, "playground"),
-  plugins: [react()],
+  plugins: [preact()],
   resolve: {
     alias: [
       {
@@ -25,9 +25,6 @@ export default defineConfig({
         replacement: join(packageRoot, "coverage"),
       },
     ],
-  },
-  optimizeDeps: {
-    include: ["react-dom/server"],
   },
   server: {
     port: 30614,

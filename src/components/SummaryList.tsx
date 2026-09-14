@@ -1,5 +1,5 @@
-import type { FC } from "react";
-import { useMemo, useState } from "react";
+import type { FunctionalComponent as FC } from "preact";
+import { useMemo, useState } from "preact/hooks";
 
 import type { DataSourceItem } from "../types";
 import { CoverageMeter } from "./CoverageMeter";

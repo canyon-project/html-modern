@@ -1,12 +1,12 @@
 {
   "name": "@canyonjs/html-modern",
-  "version": "0.1.6",
-  "description": "Modern Istanbul HTML coverage report: React UI + istanbul reporter + single-file HTML page",
+  "version": "0.1.8",
+  "description": "Modern Istanbul HTML coverage report: Preact UI + istanbul reporter + single-file HTML page",
   "keywords": [
     "coverage",
     "html",
     "istanbul",
-    "react",
+    "preact",
     "report",
     "canyon"
   ],
@@ -51,15 +51,12 @@
     "@types/istanbul-lib-coverage": "^2.0.6",
     "@types/istanbul-lib-report": "^3.0.3",
     "@types/node": "^26.2.0",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
-    "@vitejs/plugin-react": "^6.1.0",
+    "@preact/preset-vite": "^2.10.2",
     "@vitest/coverage-v8": "4.1.11",
     "istanbul-lib-coverage": "^3.2.2",
     "istanbul-lib-report": "^3.0.1",
     "istanbul-reports": "3.1.7",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "preact": "^10.27.2",
     "tsdown": "^0.22.14",
     "typescript": "^7.0.2",
     "vite": "^8.2.2",
@@ -73,8 +70,7 @@
     "@codemirror/view": "^6.38.0",
     "@vitest/istanbul-lib-report": ">=1.0.0",
     "istanbul-lib-report": ">=3.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "preact": "^10.0.0"
   },
   "peerDependenciesMeta": {
     "@vitest/istanbul-lib-report": {
@@ -89,6 +85,6 @@
   },
   "packageManager": "pnpm@10.33.0",
   "dependencies": {
-    "lucide-react": "^1.44.0"
+    "lucide-preact": "^1.28.0"
   }
 }

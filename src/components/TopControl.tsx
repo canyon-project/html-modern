@@ -1,5 +1,5 @@
-import { List, ListTree, Moon, Sun } from "lucide-react";
-import type { FC } from "react";
+import { List, ListTree, Moon, Sun } from "lucide-preact";
+import type { FunctionalComponent as FC } from "preact";
 
 import { useTheme } from "../theme-context";
 
@@ -52,7 +52,7 @@ const TopControl: FC<{
             type="search"
             placeholder="Search for files"
             value={filenameKeywords}
-            onChange={(event) => onChangeKeywords(event.target.value)}
+            onChange={(event) => onChangeKeywords(event.currentTarget.value)}
           />
         </div>
       </div>
