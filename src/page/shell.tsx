@@ -30,6 +30,7 @@ export function ReportShell() {
           name={prepared.name}
           fileTagRules={prepared.fileTagRules}
           fileTagsByPath={prepared.fileTagsByPath}
+          statementWatermarks={prepared.statementWatermarks}
         />
       </div>
       <ReportFooter

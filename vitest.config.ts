@@ -14,6 +14,7 @@ export default defineConfig({
         [
           htmlModernReporter,
           {
+            writeReportDataJson: true,
             fileTags: [
               { glob: "src/reporter/**", tag: "reporter" },
               { glob: "src/page/**", tag: "page" },
@@ -24,6 +25,12 @@ export default defineConfig({
           },
         ],
       ],
+      watermarks: {
+        lines: [80, 95],
+        functions: [80, 95],
+        branches: [80, 95],
+        statements: [80, 95],
+      },
     },
   },
 });

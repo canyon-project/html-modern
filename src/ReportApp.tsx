@@ -15,6 +15,7 @@ export const ReportApp: FC<ReportAppProps> = ({
   defaultValue = "",
   fileTagRules,
   fileTagsByPath,
+  statementWatermarks,
 }) => {
   const [value, setValue] = useHashPath(defaultValue);
 
@@ -63,6 +64,7 @@ export const ReportApp: FC<ReportAppProps> = ({
         dataSource={dataSource}
         onSelect={onSelect}
         fileTagRules={fileTagRules}
+        statementWatermarks={statementWatermarks}
       />
     </div>
   );

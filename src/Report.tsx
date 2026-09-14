@@ -12,7 +12,14 @@ import { emptyFileCoverage } from "./helpers/empty-coverage";
 import { ThemeProvider, useTheme } from "./theme-context";
 import type { FileCoverageData, ReportProps } from "./types";
 
-const ReportContent: FC<ReportProps> = ({ value, name, dataSource, onSelect, fileTagRules }) => {
+const ReportContent: FC<ReportProps> = ({
+  value,
+  name,
+  dataSource,
+  onSelect,
+  fileTagRules,
+  statementWatermarks,
+}) => {
   const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const [filenameKeywords, setFilenameKeywords] = useState("");
@@ -100,6 +107,7 @@ const ReportContent: FC<ReportProps> = ({ value, name, dataSource, onSelect, fil
         data={rootDataSource}
         value={value}
         onSelect={requestSelect}
+        statementWatermarks={statementWatermarks}
       />
 
       {mode === "file" ? (
@@ -114,12 +122,19 @@ const ReportContent: FC<ReportProps> = ({ value, name, dataSource, onSelect, fil
         </div>
       ) : (
         <div className="report-scroll-body">
-          {mode === "tree" && <SummaryTree dataSource={treeDataSource} onSelect={requestSelect} />}
+          {mode === "tree" && (
+            <SummaryTree
+              dataSource={treeDataSource}
+              onSelect={requestSelect}
+              statementWatermarks={statementWatermarks}
+            />
+          )}
           {mode === "list" && (
             <SummaryList
               dataSource={listDataSource}
               onSelect={requestSelect}
               filenameKeywords={filenameKeywords}
+              statementWatermarks={statementWatermarks}
             />
           )}
         </div>

@@ -1,6 +1,7 @@
 import type { FunctionalComponent as FC } from "preact";
 import { useMemo, useState } from "preact/hooks";
 
+import type { StatementWatermarks } from "../helpers/color";
 import type { DataSourceItem } from "../types";
 import { CoverageMeter } from "./CoverageMeter";
 import {
@@ -15,7 +16,8 @@ const SummaryList: FC<{
   dataSource: DataSourceItem[];
   onSelect: (path: string) => void;
   filenameKeywords: string;
-}> = ({ dataSource, onSelect, filenameKeywords }) => {
+  statementWatermarks?: StatementWatermarks;
+}> = ({ dataSource, onSelect, filenameKeywords, statementWatermarks }) => {
   const [sortKey, setSortKey] = useState<SortKey>("path");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
 
@@ -82,7 +84,7 @@ const SummaryList: FC<{
               <td className="is-num">{row.statements.total}</td>
               <td className="is-num">{row.statements.covered}</td>
               <td className="is-coverage">
-                <CoverageMeter pct={row.statements.pct} />
+                <CoverageMeter pct={row.statements.pct} statementWatermarks={statementWatermarks} />
               </td>
             </tr>
           ))}

@@ -1,4 +1,5 @@
 import type { FileTagRule } from "./file-tags.js";
+import type { StatementWatermarks } from "./helpers/color.js";
 
 export interface CoverageLocation {
   line: number;
@@ -64,6 +65,8 @@ export interface ReportProps {
   onSelect: (val: string) => Promise<FileDataResponse>;
   /** configured tag rules; when set, enables tag filtering in the UI */
   fileTagRules?: FileTagRule[];
+  /** statements coverage color thresholds from istanbul watermarks */
+  statementWatermarks?: StatementWatermarks;
 }
 
 export interface ReportAppFile extends FileCoverageData {
@@ -79,4 +82,6 @@ export interface ReportAppProps {
   defaultValue?: string;
   fileTagRules?: FileTagRule[];
   fileTagsByPath?: Record<string, string[]>;
+  /** statements coverage color thresholds from istanbul watermarks */
+  statementWatermarks?: StatementWatermarks;
 }

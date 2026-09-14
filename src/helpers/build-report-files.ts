@@ -1,12 +1,18 @@
 import type { FileTagRule } from "../file-tags";
 import { projectRootBaseName, resolveSource, toRelativePath } from "../paths";
 import type { FileCoverageData, ReportAppFile } from "../types";
+import type { StatementWatermarks } from "./color";
 
 export interface ReportDataLike {
   projectRoot?: string;
   coverage: Record<string, FileCoverageData | unknown>;
   sources: Record<string, string>;
   html?: { fileTags?: FileTagRule[] };
+  istanbul?: {
+    watermarks?: {
+      statements?: StatementWatermarks;
+    };
+  };
   fileTagRules?: FileTagRule[];
   fileTagsByPath?: Record<string, string[]>;
 }
@@ -18,6 +24,7 @@ export function buildReportFiles(reportData: ReportDataLike): {
   name: string;
   fileTagRules?: FileTagRule[];
   fileTagsByPath?: Record<string, string[]>;
+  statementWatermarks?: StatementWatermarks;
 } {
   const projectRoot = reportData.projectRoot ?? "";
   const coverage = reportData.coverage as Record<string, FileCoverageData>;
@@ -37,5 +44,6 @@ export function buildReportFiles(reportData: ReportDataLike): {
     name: projectRootBaseName(projectRoot),
     fileTagRules: reportData.fileTagRules ?? reportData.html?.fileTags,
     fileTagsByPath: reportData.fileTagsByPath,
+    statementWatermarks: reportData.istanbul?.watermarks?.statements,
   };
 }
