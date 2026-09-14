@@ -38,7 +38,13 @@ const SummaryList: FC<{
       <table className="coverage-table">
         <thead>
           <tr>
-            <SortableTh label="File" sortKey="path" activeKey={sortKey} dir={sortDir} onSort={onSort} />
+            <SortableTh
+              label="File"
+              sortKey="path"
+              activeKey={sortKey}
+              dir={sortDir}
+              onSort={onSort}
+            />
             <SortableTh
               label="Total"
               sortKey="total"

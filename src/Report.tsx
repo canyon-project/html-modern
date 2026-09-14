@@ -91,9 +91,7 @@ const ReportContent: FC<ReportProps> = ({ value, name, dataSource, onSelect }) =
         </div>
       ) : (
         <div className="report-scroll-body">
-          {mode === "tree" && (
-            <SummaryTree dataSource={treeDataSource} onSelect={requestSelect} />
-          )}
+          {mode === "tree" && <SummaryTree dataSource={treeDataSource} onSelect={requestSelect} />}
           {mode === "list" && (
             <SummaryList
               dataSource={listDataSource}

@@ -3,12 +3,12 @@
   "version": "0.1.8",
   "description": "Modern Istanbul HTML coverage report: Preact UI + istanbul reporter + single-file HTML page",
   "keywords": [
+    "canyon",
     "coverage",
     "html",
     "istanbul",
     "preact",
-    "report",
-    "canyon"
+    "report"
   ],
   "license": "MIT",
   "author": "Travis Zhang <https://github.com/travzhang>",
@@ -40,22 +40,29 @@
     "play": "vite --config vite.config.playground.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fmt": "oxfmt",
+    "lint": "oxlint"
+  },
+  "dependencies": {
+    "lucide-preact": "^1.28.0"
   },
   "devDependencies": {
     "@codemirror/lang-javascript": "^6.2.4",
     "@codemirror/language": "^6.11.3",
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.6",
+    "@preact/preset-vite": "^2.10.2",
     "@tsdown/css": "^0.22.14",
     "@types/istanbul-lib-coverage": "^2.0.6",
     "@types/istanbul-lib-report": "^3.0.3",
     "@types/node": "^26.2.0",
-    "@preact/preset-vite": "^2.10.2",
     "@vitest/coverage-v8": "4.1.11",
     "istanbul-lib-coverage": "^3.2.2",
     "istanbul-lib-report": "^3.0.1",
     "istanbul-reports": "3.1.7",
+    "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0",
     "preact": "^10.27.2",
     "tsdown": "^0.22.14",
     "typescript": "^7.0.2",
@@ -83,8 +90,5 @@
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "pnpm@10.33.0",
-  "dependencies": {
-    "lucide-preact": "^1.28.0"
-  }
+  "packageManager": "pnpm@10.33.0"
 }

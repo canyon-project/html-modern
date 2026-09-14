@@ -60,7 +60,11 @@ export function coverageLineGutter(linesState: LineState[]): Extension {
     lineMarker(view, line) {
       const lineNumber = view.state.doc.lineAt(line.from).number;
       const hit = byLine.get(lineNumber)?.hit ?? -1;
-      return new CoverageGutterMarker(lineNumber, hit, renderLineNumberGutter(lineNumber, linesState));
+      return new CoverageGutterMarker(
+        lineNumber,
+        hit,
+        renderLineNumberGutter(lineNumber, linesState),
+      );
     },
   });
 }

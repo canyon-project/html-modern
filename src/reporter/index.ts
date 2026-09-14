@@ -2,12 +2,7 @@
  Copyright 2012-2015, Yahoo Inc.
  Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import type {
-  Context,
-  ReportBaseOptions,
-  ReportNode,
-  Summarizers,
-} from "istanbul-lib-report";
+import type { Context, ReportBaseOptions, ReportNode, Summarizers } from "istanbul-lib-report";
 
 import type { FileCoverageData } from "../types.js";
 import { CoverageReport } from "./coverage-report.js";

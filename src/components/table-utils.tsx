@@ -36,11 +36,9 @@ export function highlightMatch(text: string, query: string): ComponentChildren {
 type SortKey = "path" | "total" | "covered" | "pct";
 type SortDir = "asc" | "desc";
 
-export function sortCoverageRows<T extends { path: string; statements: { total: number; covered: number; pct: number } }>(
-  rows: T[],
-  key: SortKey,
-  dir: SortDir,
-): T[] {
+export function sortCoverageRows<
+  T extends { path: string; statements: { total: number; covered: number; pct: number } },
+>(rows: T[], key: SortKey, dir: SortDir): T[] {
   const factor = dir === "asc" ? 1 : -1;
   return [...rows].sort((a, b) => {
     if (key === "path") {

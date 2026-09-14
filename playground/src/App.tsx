@@ -1,8 +1,8 @@
-import reportData from "@repo/fixtures/report-data.json";
 import { buildReportFiles, ReportApp } from "@canyonjs/html-modern";
+import type { FileCoverageData } from "@canyonjs/html-modern";
 
 import "@canyonjs/html-modern/style.css";
-import type { FileCoverageData } from "@canyonjs/html-modern";
+import reportData from "@repo/fixtures/report-data.json";
 import { useMemo } from "preact/hooks";
 
 export function App() {
