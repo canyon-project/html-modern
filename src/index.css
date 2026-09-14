@@ -99,6 +99,7 @@ body {
   flex: 1;
   min-height: 0;
   overflow: auto;
+  padding-right: 3px;
 }
 
 .istanbul-html-modern .report-editor-body {
