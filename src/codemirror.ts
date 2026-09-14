@@ -62,7 +62,7 @@ export const lightEditorTheme = EditorView.theme(
     ...baseEditorChrome,
     ".cm-gutters": {
       border: "none",
-      backgroundColor: "var(--report-bg)",
+      backgroundColor: "var(--report-bg) !important",
     },
   },
   { dark: false },
@@ -75,11 +75,11 @@ export const darkEditorTheme: Extension = [
       ...baseEditorChrome,
       "&": {
         ...baseEditorChrome["&"],
-        backgroundColor: "var(--report-bg)",
+        backgroundColor: "var(--report-bg) !important",
       },
       ".cm-gutters": {
         border: "none",
-        backgroundColor: "var(--report-bg)",
+        backgroundColor: "var(--report-bg) !important",
       },
     },
     { dark: true },
