@@ -45,7 +45,6 @@
     "lint": "oxlint"
   },
   "dependencies": {
-    "@uiw/codemirror-theme-tokyo-night": "^4.25.11",
     "lucide-preact": "^1.28.0"
   },
   "devDependencies": {
