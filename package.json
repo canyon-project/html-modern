@@ -1,6 +1,6 @@
 {
   "name": "@canyonjs/html-modern",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "Modern Istanbul HTML coverage report: Preact UI + istanbul reporter + single-file HTML page",
   "keywords": [
     "coverage",
