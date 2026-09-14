@@ -1,6 +1,6 @@
-import { File, Folder } from "lucide-react";
-import type { FC } from "react";
-import { useMemo, useState } from "react";
+import { File, Folder } from "lucide-preact";
+import type { FunctionalComponent as FC } from "preact";
+import { useMemo, useState } from "preact/hooks";
 
 import type { DataSourceItem } from "../types";
 import { CoverageMeter } from "./CoverageMeter";

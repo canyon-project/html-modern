@@ -1,4 +1,5 @@
-import { type FC, useCallback, useMemo } from "react";
+import type { FunctionalComponent as FC } from "preact";
+import { useCallback, useMemo } from "preact/hooks";
 
 import { emptyFileCoverage } from "./helpers/empty-coverage";
 import { filesToDataSource } from "./helpers/summary";

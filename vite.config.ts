@@ -1,7 +1,7 @@
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import react from "@vitejs/plugin-react";
+import preact from "@preact/preset-vite";
 import { defineConfig } from "vite";
 import { viteSingleFile } from "vite-plugin-singlefile";
 
@@ -26,7 +26,7 @@ function libAliases(mode: string) {
 /** Single-file HTML report page → `dist/page/index.html` */
 export default defineConfig(({ mode }) => ({
   root: join(packageRoot, "src/page"),
-  plugins: [react(), reportDataDevPlugin(), viteSingleFile()],
+  plugins: [preact(), reportDataDevPlugin(), viteSingleFile()],
   resolve: {
     alias: [
       ...libAliases(mode),
