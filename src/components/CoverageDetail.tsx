@@ -1,6 +1,6 @@
 import { EditorState, Text } from "@codemirror/state";
 import type { Extension } from "@codemirror/state";
-import { Decoration, EditorView, WidgetType, hoverTooltip } from "@codemirror/view";
+import { Decoration, EditorView, WidgetType } from "@codemirror/view";
 import { useEffect, useMemo, useRef } from "preact/hooks";
 
 import {
@@ -86,36 +86,6 @@ function buildCoverageDecorations(doc: Text, annotations: CoverageAnnotation[]) 
   return Decoration.set(ranges, true);
 }
 
-function coverageHoverTooltip(annotations: CoverageAnnotation[]): Extension {
-  return hoverTooltip((view, pos) => {
-    for (const item of annotations) {
-      const from = posAt(view.state.doc, item.startLine, item.startCol);
-      const to =
-        item.type === "I" || item.type === "E"
-          ? from
-          : posAt(view.state.doc, item.endLine, item.endCol);
-      const hit =
-        item.type === "I" || item.type === "E"
-          ? pos === from || pos === from - 1
-          : pos >= from && pos < to;
-      if (!hit) {
-        continue;
-      }
-      return {
-        pos: from,
-        end: item.type === "I" || item.type === "E" ? from : to,
-        above: true,
-        create() {
-          const dom = document.createElement("div");
-          dom.textContent = UNCOVERED_HOVER[item.type];
-          return { dom };
-        },
-      };
-    }
-    return null;
-  });
-}
-
 function createEditorExtensions(options: {
   filePath: string;
   theme: ThemeMode;
@@ -134,7 +104,6 @@ function createEditorExtensions(options: {
     theme === "dark" ? darkCoverageHighlight : coverageHighlight,
     coverageLineGutter(linesState),
     EditorView.decorations.of(decorationSet),
-    coverageHoverTooltip(annotations),
   ];
 }
 
