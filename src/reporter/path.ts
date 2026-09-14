@@ -8,8 +8,6 @@ type PathParser = (path: string) => path.ParsedPath;
 
 let parsePath: PathParser = path.parse;
 let SEP: string = path.sep;
-const origParser = parsePath;
-const origSep = SEP;
 
 function makeRelativeNormalizedPath(str: string, sep: string): string[] {
   const parsed = parsePath(str);
