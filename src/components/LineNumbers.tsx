@@ -16,6 +16,8 @@ function hitBackground(hit: number): string {
   return "var(--report-line-hit-neutral)";
 }
 
+const GUTTER_CHAR_WIDTH = 7.2;
+
 /** Render coverage line-number gutter HTML for a single line. */
 export function renderLineNumberGutter(lineNumber: number, linesState: LineState[]): string {
   const line = linesState.find((item) => item.lineNumber === lineNumber) ?? {
@@ -23,12 +25,15 @@ export function renderLineNumberGutter(lineNumber: number, linesState: LineState
     lineNumber,
   };
 
+  const lineDigitWidth = Math.max(1, linesState.length).toString().length;
+  const lineNumberWidth = lineDigitWidth * GUTTER_CHAR_WIDTH;
+
   const maxHit = Math.max(0, ...linesState.map((item) => item.hit));
-  const digitWidth = maxHit.toString().length;
-  const maxHitWidth = (digitWidth + 2) * 7.2;
+  const hitDigitWidth = maxHit.toString().length;
+  const maxHitWidth = (hitDigitWidth + 2) * GUTTER_CHAR_WIDTH;
   const hitLabel = line.hit > 0 ? `${line.hit}x` : "";
 
-  return `<div class="line-number-wrapper"><span class="line-number">${lineNumber}</span><span class="line-coverage" style="background:${hitBackground(line.hit)};width:${maxHitWidth}px">${hitLabel}</span></div>`;
+  return `<div class="line-number-wrapper"><span class="line-number" style="width:${lineNumberWidth}px">${lineNumber}</span><span class="line-coverage" style="background:${hitBackground(line.hit)};width:${maxHitWidth}px">${hitLabel}</span></div>`;
 }
 
 class CoverageGutterMarker extends GutterMarker {

@@ -473,6 +473,7 @@ body {
 /* Code viewer */
 .istanbul-html-modern .line-number {
   margin-right: 5px;
+  font-variant-numeric: tabular-nums;
 }
 
 .istanbul-html-modern .line-number-wrapper {
